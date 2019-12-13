@@ -67,7 +67,6 @@ define( 'ORDERMANAGER_DB_VERSION', '1.0.0' );
 
 require ORDERMANAGER_PLUGIN_DIR . '/includes/autoloader.php';
 require ORDERMANAGER_PLUGIN_DIR . '/includes/functions-ordermanager.php';
-require ORDERMANAGER_PLUGIN_DIR . '/includes/functions-gettext.php';
 
 // =========================
 // ! Setup
