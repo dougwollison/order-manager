@@ -136,15 +136,56 @@ final class Manager extends Handler {
 	 */
 	protected static function setup_options_fields() {
 		/**
-		 * General Settings
+		 * Post Types
 		 */
-		$general_settings = array(
-			// to be written
-		);
 
-		// Add the section and fields
-		add_settings_section( 'default', null, null, 'ordermanager-options' );
-		Settings::add_fields( $general_settings, 'options' );
+		add_settings_section( 'post_types', __( 'Post Types', 'ordermanager' ), null, 'ordermanager-options' );
+
+		// Build the list
+		$post_types_settings = array();
+		foreach ( get_post_types( array(
+			'show_ui' => true,
+		), 'objects' ) as $post_type ) {
+			// Automatically skip attachments
+			if ( $post_type->name == 'attachment' ) {
+				continue;
+			}
+
+			$post_types_settings[ "post_types[{$post_type->name}]" ] = array(
+				'title' => $post_type->labels->name,
+				'type' => 'checklist',
+				'data' => array(
+					'order_manager' => __( 'Enable order manager', 'ordermanager' ),
+					'get_posts_override' => __( 'Override order on get_posts()', 'ordermanager' ),
+				),
+			);
+		}
+
+		Settings::add_fields( $post_types_settings, 'options', 'post_types' );
+
+		/**
+		 * Taxonomies
+		 */
+
+		add_settings_section( 'taxonomies', __( 'Taxonomies', 'ordermanager' ), null, 'ordermanager-options' );
+
+		// Build the list
+		$taxonomies_settings = array();
+		foreach ( get_taxonomies( array(
+			'show_ui' => true,
+		), 'objects' ) as $taxonomy ) {
+
+			$taxonomies_settings[ "taxonomies[{$taxonomy->name}]" ] = array(
+				'title' => $taxonomy->labels->name,
+				'type' => 'checklist',
+				'data' => array(
+					'order_manager' => __( 'Enable order manager', 'ordermanager' ),
+					'get_terms_override' => __( 'Override order on get_terms()', 'ordermanager' ),
+				),
+			);
+		}
+
+		Settings::add_fields( $taxonomies_settings, 'options', 'taxonomies' );
 	}
 
 	// =========================
