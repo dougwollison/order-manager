@@ -1,8 +1,8 @@
 <?php
 /**
- * PluginName Abstract Handler
+ * OrderManager Abstract Handler
  *
- * @package PluginName
+ * @package OrderManager
  * @subpackage Abstracts
  *
  * @internal
@@ -10,14 +10,14 @@
  * @since 1.0.0
  */
 
-namespace PluginName;
+namespace OrderManager;
 
 /**
  * The Handler Hook
  *
  * Simple object representing a hook's settings.
  *
- * @package PluginName
+ * @package OrderManager
  * @subpackage Utilities
  *
  * @internal
@@ -96,7 +96,7 @@ final class Hook {
  * and defines aliases to the WordPress Plugin API, adding the
  * specified method of the current class to the specified hook.
  *
- * @package PluginName
+ * @package OrderManager
  * @subpackage Abstracts
  *
  * @internal

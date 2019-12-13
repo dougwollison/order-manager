@@ -1,8 +1,8 @@
 <?php
 /**
- * PluginName Internal Functions
+ * OrderManager Internal Functions
  *
- * @package PluginName
+ * @package OrderManager
  * @subpackage Utilities
  *
  * @internal
@@ -10,7 +10,7 @@
  * @since 1.0.0
  */
 
-namespace PluginName;
+namespace OrderManager;
 
 // =========================
 // ! Conditional Tags

@@ -1,15 +1,15 @@
 <?php
 /**
- * PluginName Autoloading System
+ * OrderManager Autoloading System
  *
- * @package PluginName
+ * @package OrderManager
  *
  * @internal
  *
  * @since 1.0.0
  */
 
-namespace PluginName_Autoloader;
+namespace OrderManager_Autoloader;
 
 /**
  * Handle file locating and loading.
@@ -43,7 +43,7 @@ function find( $type, $name ) {
 }
 
 /**
- * Find/load an PluginName class.
+ * Find/load an OrderManager class.
  *
  * Will automatically initailize if it's a Functional sub-class.
  *
@@ -60,7 +60,7 @@ function find_class( $class ) {
 }
 
 /**
- * Find/load an PluginName abstract class.
+ * Find/load an OrderManager abstract class.
  *
  * @internal
  *

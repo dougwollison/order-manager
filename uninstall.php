@@ -1,13 +1,13 @@
 <?php
 /**
- * PluginName Uninstall Logic
+ * OrderManager Uninstall Logic
  *
- * @package PluginName
+ * @package OrderManager
  *
  * @since 1.0.0
  */
 
-namespace PluginName;
+namespace OrderManager;
 
 /**
  * The Plugin Uninstaller
@@ -33,7 +33,7 @@ final class Uninstaller {
 		}
 
 		// Also abort if (somehow) it's some other plugin being uninstalled
-		if ( WP_UNINSTALL_PLUGIN != basename( __DIR__ ) . '/plugin-name.php' ) {
+		if ( WP_UNINSTALL_PLUGIN != basename( __DIR__ ) . '/order-manager.php' ) {
 			die( sprintf( 'Illegal attempt to uninstall [Plugin Name] while uninstalling %s.', WP_UNINSTALL_PLUGIN ) );
 		}
 
@@ -59,12 +59,12 @@ final class Uninstaller {
 	/**
 	 * Perform the actual uninstallation.
 	 *
-	 * Delete all tables and all options created by PluginName.
+	 * Delete all tables and all options created by OrderManager.
 	 *
 	 * @since 1.0.0
 	 */
 	public static function uninstall() {
-		delete_option( 'pluginname_options' );
+		delete_option( 'ordermanager_options' );
 	}
 }
 

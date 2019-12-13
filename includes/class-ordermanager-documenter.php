@@ -1,14 +1,14 @@
 <?php
 /**
- * PluginName Documentation Utility
+ * OrderManager Documentation Utility
  *
- * @package PluginName
+ * @package OrderManager
  * @subpackage Helpers
  *
  * @since 1.0.0
  */
 
-namespace PluginName;
+namespace OrderManager;
 
 /**
  * The Documenter System
@@ -125,7 +125,7 @@ final class Documenter extends Handler {
 		$section = sanitize_file_name( $section );
 
 		// Build the path to the doc file
-		$path = PLUGINNAME_PLUGIN_DIR . '/documentation';
+		$path = ORDERMANAGER_PLUGIN_DIR . '/documentation';
 
 		// If a section is specified, add to the path
 		if ( ! is_null( $section ) ) {
@@ -150,7 +150,7 @@ final class Documenter extends Handler {
 
 		// Return the parsed data
 		return array(
-			'id' => "pluginname-{$section}-{$tab}",
+			'id' => "ordermanager-{$section}-{$tab}",
 			'title' => $matches[1],
 			'content' => wpautop( $matches[2] ),
 		);

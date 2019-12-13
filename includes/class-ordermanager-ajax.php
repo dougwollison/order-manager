@@ -1,14 +1,14 @@
 <?php
 /**
- * PluginName AJAX Handler
+ * OrderManager AJAX Handler
  *
- * @package PluginName
+ * @package OrderManager
  * @subpackage Handlers
  *
  * @since 1.0.0
  */
 
-namespace PluginName;
+namespace OrderManager;
 
 /**
  * The AJAX Request Handler

@@ -1,14 +1,14 @@
 <?php
 /**
- * PluginName Registry API
+ * OrderManager Registry API
  *
- * @package PluginName
+ * @package OrderManager
  * @subpackage Tools
  *
  * @since 1.0.0
  */
 
-namespace PluginName;
+namespace OrderManager;
 
 /**
  * The Registry
@@ -131,7 +131,7 @@ final class Registry {
 	public static function get( $option, $default = null, $true_value = false, &$has_override = null ) {
 		// Trigger notice error if trying to set an unsupported option
 		if ( ! self::has( $option ) ) {
-			trigger_error( "[PluginName] The option '{$option}' is not supported.", E_USER_NOTICE );
+			trigger_error( "[OrderManager] The option '{$option}' is not supported.", E_USER_NOTICE );
 		}
 
 		// Check if it's set, return it's value.
@@ -163,7 +163,7 @@ final class Registry {
 	public static function set( $option, $value = null ) {
 		// Trigger notice error if trying to set an unsupported option
 		if ( ! self::has( $option ) ) {
-			trigger_error( "[PluginName] The option '{$option}' is not supported.", E_USER_NOTICE );
+			trigger_error( "[OrderManager] The option '{$option}' is not supported.", E_USER_NOTICE );
 		}
 
 		self::$options[ $option ] = $value;
@@ -182,7 +182,7 @@ final class Registry {
 	public static function override( $option, $value ) {
 		// Trigger notice error if trying to set an unsupported option
 		if ( ! self::has( $option ) ) {
-			trigger_error( "[PluginName] The option '{$option}' is not supported.", E_USER_NOTICE );
+			trigger_error( "[OrderManager] The option '{$option}' is not supported.", E_USER_NOTICE );
 		}
 
 		self::$options_override[ $option ] = $value;
@@ -210,7 +210,7 @@ final class Registry {
 		}
 
 		// Load the options
-		$options = get_option( 'pluginname_options', array() );
+		$options = get_option( 'ordermanager_options', array() );
 		foreach ( self::$options_whitelist as $option => $default ) {
 			$value = $default;
 			if ( isset( $options[ $option ] ) ) {
@@ -235,6 +235,6 @@ final class Registry {
 	 * @param string $what Optional. What to save if not everything.
 	 */
 	public static function save( $what = true ) {
-		update_option( 'pluginname_options', self::$options );
+		update_option( 'ordermanager_options', self::$options );
 	}
 }

@@ -1,14 +1,14 @@
 <?php
 /**
- * PluginName Installation Functionality
+ * OrderManager Installation Functionality
  *
- * @package PluginName
+ * @package OrderManager
  * @subpackage Handlers
  *
  * @since 1.0.0
  */
 
-namespace PluginName;
+namespace OrderManager;
 
 /**
  * The Plugin Installer
@@ -43,14 +43,14 @@ final class Installer extends Handler {
 	/**
 	 * Register the plugin hooks.
 	 *
-	 * @uses PLUGINNAME_PLUGIN_FILE to identify the plugin file.
+	 * @uses ORDERMANAGER_PLUGIN_FILE to identify the plugin file.
 	 * @uses Installer::plugin_activate() as the activation hook.
 	 * @uses Installer::plugin_deactivate() as the deactivation hook.
 	 */
 	public static function register_hooks() {
 		// Plugin hooks
-		register_activation_hook( PLUGINNAME_PLUGIN_FILE, array( __CLASS__, 'plugin_activate' ) );
-		register_deactivation_hook( PLUGINNAME_PLUGIN_FILE, array( __CLASS__, 'plugin_deactivate' ) );
+		register_activation_hook( ORDERMANAGER_PLUGIN_FILE, array( __CLASS__, 'plugin_activate' ) );
+		register_deactivation_hook( ORDERMANAGER_PLUGIN_FILE, array( __CLASS__, 'plugin_deactivate' ) );
 
 		// Upgrade logic
 		self::add_hook( 'plugins_loaded', 'upgrade', 10, 0 );
@@ -77,7 +77,7 @@ final class Installer extends Handler {
 		} else {
 			// Check if this is the intended plugin for uninstalling
 			if ( ! isset( $_REQUEST['checked'] )
-			|| ! in_array( plugin_basename( PLUGINNAME_PLUGIN_FILE ), $_REQUEST['checked'] ) ) {
+			|| ! in_array( plugin_basename( ORDERMANAGER_PLUGIN_FILE ), $_REQUEST['checked'] ) ) {
 				return false;
 			}
 		}
@@ -145,7 +145,7 @@ final class Installer extends Handler {
 	protected static function install() {
 		// Default options
 		$default_options = Registry::get_defaults();
-		add_option( 'pluginname_options', $default_options );
+		add_option( 'ordermanager_options', $default_options );
 	}
 
 	// =========================

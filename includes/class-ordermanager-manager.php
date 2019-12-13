@@ -1,20 +1,20 @@
 <?php
 /**
- * PluginName Manager Funtionality
+ * OrderManager Manager Funtionality
  *
- * @package PluginName
+ * @package OrderManager
  * @subpackage Handlers
  *
  * @since 1.0.0
  */
 
-namespace PluginName;
+namespace OrderManager;
 
 /**
  * The Management System
  *
  * Hooks into the backend to add the interfaces for
- * managing the configuration of PluginName.
+ * managing the configuration of OrderManager.
  *
  * @internal Used by the System.
  *
@@ -77,10 +77,10 @@ final class Manager extends Handler {
 	public static function add_menu_pages() {
 		// Main Options page
 		$options_page_hook = add_menu_page(
-			__( '[plugin name] Options', 'plugin-name' ), // page title
-			_x( '[plugin name]', 'menu title', 'plugin-name' ), // menu title
+			__( 'Order Manager Options', 'order-manager' ), // page title
+			_x( 'Order Manager', 'menu title', 'order-manager' ), // menu title
 			'manage_options', // capability
-			'pluginname-options', // slug
+			'ordermanager-options', // slug
 			array( __CLASS__, 'settings_page' ), // callback
 			'dashicons-admin-generic', // icon
 			90 // Postion; after settings
@@ -104,7 +104,7 @@ final class Manager extends Handler {
 	 * @uses Manager::setup_options_fields() to add fields to the main options fields.
 	 */
 	public static function register_settings() {
-		register_setting( 'pluginname-options', 'pluginname_options', array( __CLASS__, 'update_options' ) );
+		register_setting( 'ordermanager-options', 'ordermanager_options', array( __CLASS__, 'update_options' ) );
 		self::setup_options_fields();
 	}
 
@@ -122,7 +122,7 @@ final class Manager extends Handler {
 	 * @return mixed The merged/sanitized options.
 	 */
 	public static function update_options( $updated_options ) {
-		$all_options = get_option( 'pluginname_options', array() );
+		$all_options = get_option( 'ordermanager_options', array() );
 
 		return array_merge( $all_options, $updated_options );
 	}
@@ -145,7 +145,7 @@ final class Manager extends Handler {
 		);
 
 		// Add the section and fields
-		add_settings_section( 'default', null, null, 'pluginname-options' );
+		add_settings_section( 'default', null, null, 'ordermanager-options' );
 		Settings::add_fields( $general_settings, 'options' );
 	}
 

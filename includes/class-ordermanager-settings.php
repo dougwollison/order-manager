@@ -1,14 +1,14 @@
 <?php
 /**
- * PluginName Settings Helper
+ * OrderManager Settings Helper
  *
- * @package PluginName
+ * @package OrderManager
  * @subpackage Helpers
  *
  * @since 1.0.0
  */
 
-namespace PluginName;
+namespace OrderManager;
 
 /**
  * The Settings Kit
@@ -24,8 +24,8 @@ final class Settings {
 	/**
 	 * Add the desired settings field.
 	 *
-	 * Prefixes option name with "pluginname_"
-	 * and the page name with "pluginname-".
+	 * Prefixes option name with "ordermanager_"
+	 * and the page name with "ordermanager-".
 	 *
 	 * @since 1.0.0
 	 *
@@ -51,19 +51,19 @@ final class Settings {
 			'data'  => array()
 		) );
 
-		// Handle prefixing the name with pluginname_options
+		// Handle prefixing the name with ordermanager_options
 		if ( preg_match( '/([^\[]+)(\[.+\])/', $field, $matches ) ) {
-			$id = "pluginname_" . trim( preg_replace( '/[\[\]]+/', '_', $field ), '_' );
-			$name = "pluginname_{$page}[{$matches[1]}]{$matches[2]}";
+			$id = "ordermanager_" . trim( preg_replace( '/[\[\]]+/', '_', $field ), '_' );
+			$name = "ordermanager_{$page}[{$matches[1]}]{$matches[2]}";
 		} else {
-			$id = "pluginname_{$field}";
-			$name = "pluginname_{$page}[{$field}]";
+			$id = "ordermanager_{$field}";
+			$name = "ordermanager_{$page}[{$field}]";
 		}
 
 		// Build the callback arguments
 		$class = sanitize_key( $field );
 		$args = array(
-			'class'     => "pluginname-settings-field pluginname-settings-{$page}-field pluginname_{$class}-field",
+			'class'     => "ordermanager-settings-field ordermanager-settings-{$page}-field ordermanager_{$class}-field",
 			'option'    => $field,
 			'id'        => $id,
 			'name'      => $name,
@@ -80,10 +80,10 @@ final class Settings {
 
 		// Add the settings field
 		add_settings_field(
-			"pluginname_{$field}", // id
+			"ordermanager_{$field}", // id
 			$options['title'], // title
 			array( __CLASS__, 'build_field' ), // callback
-			"pluginname-{$page}", // page
+			"ordermanager-{$page}", // page
 			$section, // section
 			$args // arguments
 		);
@@ -346,7 +346,7 @@ final class Settings {
 		}
 
 		// Build the list, including a fallback "none" input
-		$html = '<fieldset class="pluginname-inputlist">' .
+		$html = '<fieldset class="ordermanager-inputlist">' .
 			sprintf( '<input type="hidden" name="%s" value="" />', $name ) .
 			implode( '<br /> ', $inputs ) .
 		'</fieldset>';
@@ -382,6 +382,6 @@ final class Settings {
 	 * @param string $text  The notice text.
 	 */
 	private static function print_notice( $text ) {
-		printf( '<p><span class="pluginname-settings-notice">%s</span></p>', $text );
+		printf( '<p><span class="ordermanager-settings-notice">%s</span></p>', $text );
 	}
 }

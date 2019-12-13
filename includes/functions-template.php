@@ -1,8 +1,8 @@
 <?php
 /**
- * PluginName Template Functions
+ * OrderManager Template Functions
  *
- * @package PluginName
+ * @package OrderManager
  * @subpackage Utilities
  *
  * @api
@@ -10,6 +10,6 @@
  * @since 1.0.0
  */
 
-use PluginName\Registry as Registry;
+use OrderManager\Registry as Registry;
 
 // to be written

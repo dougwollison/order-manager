@@ -1,20 +1,20 @@
 <?php
 /**
- * PluginName Exception
+ * OrderManager Exception
  *
- * @package PluginName
+ * @package OrderManager
  * @subpackage Helpers
  *
  * @since 1.0.0
  */
 
-namespace PluginName;
+namespace OrderManager;
 
 /**
  * The Exceptional Exception
  *
  * Used in the event of a serious error within
- * the PluginName system.
+ * the OrderManager system.
  *
  * @api
  *

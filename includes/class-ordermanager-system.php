@@ -1,14 +1,14 @@
 <?php
 /**
- * PluginName System
+ * OrderManager System
  *
- * @package PluginName
+ * @package OrderManager
  * @subpackage Handlers
  *
  * @since 1.0.0
  */
 
-namespace PluginName;
+namespace OrderManager;
 
 /**
  * The Main System

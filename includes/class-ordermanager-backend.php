@@ -1,14 +1,14 @@
 <?php
 /**
- * PluginName Backend Functionality
+ * OrderManager Backend Functionality
  *
- * @package PluginName
+ * @package OrderManager
  * @subpackage Handlers
  *
  * @since 1.0.0
  */
 
-namespace PluginName;
+namespace OrderManager;
 
 /**
  * The Backend Functionality
@@ -55,7 +55,7 @@ final class Backend extends Handler {
 		self::add_hook( 'plugins_loaded', 'load_textdomain', 10, 0 );
 
 		// Plugin information
-		self::add_hook( 'in_plugin_update_message-' . plugin_basename( PLUGINNAME_PLUGIN_FILE ), 'update_notice' );
+		self::add_hook( 'in_plugin_update_message-' . plugin_basename( ORDERMANAGER_PLUGIN_FILE ), 'update_notice' );
 
 		// Script/Style Enqueues
 		self::add_hook( 'admin_enqueue_scripts', 'enqueue_assets' );
@@ -72,7 +72,7 @@ final class Backend extends Handler {
 	 */
 	public static function load_textdomain() {
 		// Load the textdomain
-		load_plugin_textdomain( 'pluginname', false, dirname( PLUGINNAME_PLUGIN_FILE ) . '/languages' );
+		load_plugin_textdomain( 'ordermanager', false, dirname( ORDERMANAGER_PLUGIN_FILE ) . '/languages' );
 	}
 
 	// =========================
@@ -91,11 +91,11 @@ final class Backend extends Handler {
 		$version = $plugin['new_version'];
 
 		// Check if there's a notice about the update
-		$transient = "pluginname-update-notice-{$version}";
+		$transient = "ordermanager-update-notice-{$version}";
 		$notice = get_transient( $transient );
 		if ( $notice === false ) {
 			// Hasn't been saved, fetch it from the SVN repo
-			$notice = @file_get_contents( "http://plugins.svn.wordpress.org/pluginname/assets/notice-{$version}.txt" ) ?: '';
+			$notice = @file_get_contents( "http://plugins.svn.wordpress.org/ordermanager/assets/notice-{$version}.txt" ) ?: '';
 
 			// Save the notice
 			set_transient( $transient, $notice, YEAR_IN_SECONDS );
@@ -128,13 +128,13 @@ final class Backend extends Handler {
 	 */
 	public static function enqueue_assets(){
 		// Admin styling
-		wp_enqueue_style( 'pluginname-admin', plugins_url( 'css/admin.css', PLUGINNAME_PLUGIN_FILE ), '1.0.0', 'screen' );
+		wp_enqueue_style( 'ordermanager-admin', plugins_url( 'css/admin.css', ORDERMANAGER_PLUGIN_FILE ), '1.0.0', 'screen' );
 
 		// Admin javascript
-		wp_enqueue_script( 'pluginname-admin-js', plugins_url( 'js/admin.js', PLUGINNAME_PLUGIN_FILE ), array(), '1.0.0' );
+		wp_enqueue_script( 'ordermanager-admin-js', plugins_url( 'js/admin.js', ORDERMANAGER_PLUGIN_FILE ), array(), '1.0.0' );
 
 		// Localize the javascript
-		wp_localize_script( 'pluginname-admin-js', 'pluginnameL10n', array(
+		wp_localize_script( 'ordermanager-admin-js', 'ordermanagerL10n', array(
 			// to be written
 		) );
 	}
