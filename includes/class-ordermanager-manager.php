@@ -76,14 +76,12 @@ final class Manager extends Handler {
 	 */
 	public static function add_menu_pages() {
 		// Main Options page
-		$options_page_hook = add_menu_page(
+		$options_page_hook = add_options_page(
 			__( 'Order Manager Options', 'order-manager' ), // page title
 			_x( 'Order Manager', 'menu title', 'order-manager' ), // menu title
 			'manage_options', // capability
 			'ordermanager-options', // slug
-			array( __CLASS__, 'settings_page' ), // callback
-			'dashicons-admin-generic', // icon
-			90 // Postion; after settings
+			array( __CLASS__, 'settings_page' ) // callback
 		);
 
 		// Setup the help tabs for each page
