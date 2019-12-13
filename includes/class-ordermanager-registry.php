@@ -55,7 +55,28 @@ final class Registry {
 	 *
 	 * @var array
 	 */
-	protected static $options_whitelist = array();
+	protected static $options_whitelist = array(
+		// - The list of supported post types
+		'post_types' => array(
+			/*
+			'post' => array(
+				'order_manager' => true|false, // show UI for sorting posts
+				'get_posts_override' => true|false, // override get_posts order
+			),
+			*/
+		),
+		// - The list of supported taxonomies
+		'taxonomies' => array(
+			/*
+			'category' => array(
+				'order_manager' => true|false, // show UI for sorting terms
+				'get_terms_override' => true|false, // override get_terms order
+				'post_order_manager' => true|false, // show UI for sorting posts per term
+				'get_posts_override' => true|false, // override get_posts order
+			),
+			*/
+		),
+	);
 
 	/**
 	 * The deprecated options and their alternatives.
