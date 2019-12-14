@@ -81,7 +81,7 @@ final class System extends Handler {
 	 */
 	public static function register_hooks() {
 		// Query Manipulation
-		self::add_hook( 'get_terms_orderby', 'handle_term_order', 10, 3 );
+		self::add_hook( 'parse_term_query', 'handle_term_order', 10, 1 );
 		self::add_hook( 'posts_orderby', 'handle_term_post_order', 10, 2 );
 
 		// Insert Manipulation
@@ -93,20 +93,33 @@ final class System extends Handler {
 	// =========================
 
 	/**
-	 * Filters the ORDERBY clause of the terms query.
-	 *
-	 * Adds handling of "menu_order" option.
+	 * Rewrite query to handle "menu_order" orderby argument.
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string   $orderby    `ORDERBY` clause of the terms query.
-	 * @param array    $args       An array of term query arguments.
-	 * @param string[] $taxonomies An array of taxonomy names.
-	 *
-	 * @return string The filtered `ORDERBY` clause.
+	 * @param WP_Term_Query $this Current instance of WP_Term_Query.
 	 */
-	public static function handle_term_order( $orderby, $args, $taxonomy ) {
-		return $orderby;
+	public static function handle_term_order( $query ) {
+		$vars = &$query->query_vars;
+
+		if ( isset( $vars['orderby'] ) && $vars['orderby'] == 'menu_order' ) {
+			$vars['orderby'] = 'meta_value_num';
+			$vars['meta_query'] = $vars['meta_query'] ?: array();
+
+			$vars['meta_query']['relation'] = 'OR';
+			$vars['meta_query'][] = array(
+				'key' => 'menu_order',
+				'compare' => 'EXISTS',
+			);
+			$vars['meta_query'][] = array(
+				'key' => 'menu_order',
+				'compare' => 'NOT EXISTS',
+			);
+
+			if ( ! isset( $vars['order'] ) ) {
+				$vars['orderby'] = 'asc';
+			}
+		}
 	}
 
 	/**
