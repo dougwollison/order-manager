@@ -266,7 +266,7 @@ final class Backend extends Handler {
 		$terms = get_terms( array(
 			'query_context' => 'ordermanager',
 			'taxonomy' => $taxonomy,
-			'orderby' => 'term_order',
+			'orderby' => 'menu_order',
 			'order' => 'asc',
 			'hide_empty' => false,
 		) );
