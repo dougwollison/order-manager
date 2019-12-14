@@ -1,4 +1,11 @@
-/* globals ordermanagerL10n */
+/* globals jQuery */
 jQuery( function( $ ) {
-	// to be written
+	$( '.ordermanager-items' ).sortable( {
+		axis                 : false,
+		items                : 'li',
+		containment          : '.ordermanager-items',
+		cursor               : 'move',
+		forcePlaceholderSize : true,
+		revert               : true,
+	} );
 } );
