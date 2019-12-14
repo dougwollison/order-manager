@@ -1,0 +1,61 @@
+.ordermanager {
+	&-interface {
+		margin: 1em 0;
+
+		ol {
+			margin: 0;
+			list-style: none;
+		}
+		ol ol {
+			padding-left: 2em;
+		}
+	}
+
+	&-item {
+		margin: 0;
+		overflow: hidden;
+
+		&-label {
+			background: #f7f7f7;
+			border: 1px solid #ccc;
+			padding: .5em 2em .5em .7em;
+			line-height: 1.2em;
+			cursor: ns-resize;
+			margin: 0 0 5px;
+
+			&:before {
+				content: '\f156';
+				font: 1em dashicons;
+				float: right;
+				width: 2em;
+				text-align: center;
+				margin-right: -2em;
+				display: none;
+			}
+
+			&:hover:before,
+			.ui-sortable-helper &:before {
+				display: block;
+			}
+		}
+	}
+
+	&-placeholder {
+		border: 1px dashed #ccc;
+		padding: .5em .7em;
+		line-height: 1.2em;
+		white-space: pre;
+		margin: 0 0 5px;
+
+		&:before {
+			content: ' ';
+		}
+	}
+
+	&-item-label,
+	&-placeholder,
+	&-interface .ui-sortable-helper {
+		box-sizing: border-box;
+		max-width: 500px;
+	}
+}
