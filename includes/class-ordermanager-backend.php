@@ -325,7 +325,7 @@ final class Backend extends Handler {
 		}
 
 		$post_type = $_POST['post_type'];
-		if ( ! wp_verify_nonce( $_POST[ "ordermanager_post_order:{$post_type}" ] ) ) ) {
+		if ( ! wp_verify_nonce( $_POST[ "ordermanager_post_order:{$post_type}" ] ) ) {
 			cheatin();
 		}
 
@@ -355,7 +355,7 @@ final class Backend extends Handler {
 		}
 
 		$post_type = $_POST['post_type'];
-		if ( ! wp_verify_nonce( $_POST[ "ordermanager_term_order:{$post_type}" ] ) ) ) {
+		if ( ! wp_verify_nonce( $_POST[ "ordermanager_term_order:{$post_type}" ] ) ) {
 			cheatin();
 		}
 
