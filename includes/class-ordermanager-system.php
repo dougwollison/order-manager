@@ -83,9 +83,6 @@ final class System extends Handler {
 		// Query Manipulation
 		self::add_hook( 'parse_term_query', 'handle_term_order', 10, 1 );
 		self::add_hook( 'posts_orderby', 'handle_term_post_order', 10, 2 );
-
-		// Insert Manipulation
-		self::add_hook( 'create_term', 'default_term_menu_order', 10, 3 );
 	}
 
 	// =========================
@@ -153,25 +150,5 @@ final class System extends Handler {
 		}
 
 		return $orderby;
-	}
-
-	// =========================
-	// ! Insert Manupulation
-	// =========================
-
-	/**
-	 * Add default value for menu_order term meta value.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @param int    $term_id  Term ID.
-	 * @param int    $tt_id    Term taxonomy ID.
-	 * @param string $taxonomy Taxonomy slug.
-	 */
-	function term_order_default_value( $term_id, $tt_id, $taxonomy ) {
-		// If term is of supported taxonomy, add default menu_order value
-		if ( Registry::is_taxonomy_supported( $taxonomy, 'order_manager' ) ) {
-			add_term_meta( $term_id, 'menu_order', $term_id, true );
-		}
 	}
 }
