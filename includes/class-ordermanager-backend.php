@@ -229,6 +229,7 @@ final class Backend extends Handler {
 		?>
 		<div class="wrap">
 			<h2><?php echo get_admin_page_title(); ?></h2>
+			<?php settings_errors(); ?>
 			<form method="post" action="admin-post.php">
 				<input type="hidden" name="action" value="ordermanager_post_order" />
 				<input type="hidden" name="post_type" value="<?php echo $post_type; ?>" />
@@ -274,6 +275,7 @@ final class Backend extends Handler {
 		?>
 		<div class="wrap">
 			<h2><?php echo get_admin_page_title(); ?></h2>
+			<?php settings_errors(); ?>
 			<form method="post" action="admin-post.php">
 				<input type="hidden" name="action" value="ordermanager_term_order" />
 				<input type="hidden" name="post_type" value="<?php echo get_current_screen()->post_type; ?>" />
@@ -319,7 +321,9 @@ final class Backend extends Handler {
 			exit;
 		}
 
+		// Fail if nonce does
 		$post_type = $_POST['post_type'];
+		check_admin_referer( "ordermanager_post_order:{$post_type}" );
 		if ( ! wp_verify_nonce( $_POST['_wpnonce'], "ordermanager_post_order:{$post_type}" ) ) {
 			cheatin();
 		}
@@ -331,6 +335,15 @@ final class Backend extends Handler {
 				'menu_order' => $order,
 			) );
 		}
+
+		// Add notice about order being updated
+		add_settings_error( "{$post_type}-ordermanager", 'settings_updated', __( 'Order saved.', 'ordermanager' ), 'updated' );
+		set_transient( 'settings_errors', get_settings_errors(), 30 );
+
+		// Return to settings page
+		$redirect = add_query_arg( 'settings-updated', 'true',  wp_get_referer() );
+		wp_redirect( $redirect );
+		exit;
 	}
 
 	/**
@@ -350,6 +363,7 @@ final class Backend extends Handler {
 		}
 
 		$taxonomy = $_POST['taxonomy'];
+		check_admin_referer( "ordermanager_term_order:{$taxonomy}" );
 		if ( ! wp_verify_nonce( $_POST['_wpnonce'], "ordermanager_term_order:{$taxonomy}" ) ) {
 			cheatin();
 		}
@@ -358,5 +372,14 @@ final class Backend extends Handler {
 		foreach ( $term_order as $order => $term_id ) {
 			update_term_meta( $term_id, 'menu_order', $order );
 		}
+
+		// Add notice about order being updated
+		add_settings_error( "{$taxonomy}-ordermanager", 'settings_updated', __( 'Order saved.', 'ordermanager' ), 'updated' );
+		set_transient( 'settings_errors', get_settings_errors(), 30 );
+
+		// Return to settings page
+		$redirect = add_query_arg( 'settings-updated', 'true',  wp_get_referer() );
+		wp_redirect( $redirect );
+		exit;
 	}
 }
