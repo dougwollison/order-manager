@@ -182,26 +182,28 @@ final class Backend extends Handler {
 		}
 
 		foreach ( $taxonomies as $taxonomy => $options ) {
-			if ( ! $options['order_manager'] ) {
-				continue;
-			}
-
 			$taxonomy_obj = get_taxonomy( $taxonomy );
 
-			foreach ( $taxonomy_obj->object_type as $post_type ) {
-				$parent_slug = 'edit.php';
-				if ( $post_type != 'post' ) {
-					$parent_slug = "edit.php?post_type={$post_type}";
-				}
+			if ( $options['order_manager'] ) {
+				foreach ( $taxonomy_obj->object_type as $post_type ) {
+					$parent_slug = 'edit.php';
+					if ( $post_type != 'post' ) {
+						$parent_slug = "edit.php?post_type={$post_type}";
+					}
 
-				add_submenu_page(
-					$parent_slug, // parent slug
-					sprintf( __( 'Manage %s Order', 'ordermanager' ), $taxonomy_obj->labels->singular_name ), // page title
-					sprintf( __( '%s Order', 'ordermanager' ), $taxonomy_obj->labels->singular_name ), // menu title
-					$taxonomy_obj->cap->manage_terms, // capability
-					"{$taxonomy}-ordermanager", // menu slug
-					array( __CLASS__, 'do_term_order_manager' ) // callback function
-				);
+					add_submenu_page(
+						$parent_slug, // parent slug
+						sprintf( __( 'Manage %s Order', 'ordermanager' ), $taxonomy_obj->labels->singular_name ), // page title
+						sprintf( __( '%s Order', 'ordermanager' ), $taxonomy_obj->labels->singular_name ), // menu title
+						$taxonomy_obj->cap->manage_terms, // capability
+						"{$taxonomy}-ordermanager", // menu slug
+						array( __CLASS__, 'do_term_order_manager' ) // callback function
+					);
+				}
+			}
+
+			if ( $options['post_order_manager'] ) {
+				self::add_hook( "{$taxonomy}_edit_form_fields", 'do_term_post_order_manager', 10, 1 );
 			}
 		}
 	}
@@ -298,6 +300,48 @@ final class Backend extends Handler {
 				<button type="submit" class="button-primary">Save Order</button>
 			</form>
 		</div>
+		<?php
+	}
+
+	/**
+	 * Render a post order manager for a specific term.
+	 *
+	 * @since 1.0.0
+	 */
+	public static function do_term_post_order_manager( $term ) {
+		$post_order = get_term_meta( $term->term_id, 'post_order', true ) ?: array();
+		$taxonomy_obj = get_taxonomy( $term->taxonomy );
+
+		$walker = new Post_Walker;
+		$posts = get_posts( array(
+			'query_context' => 'ordermanager',
+			'post_type' => $taxonomy_obj->object_type,
+			'post_status' => 'any',
+			'posts_per_page' => -1,
+			'tax_query' => array(
+				array(
+					'taxonomy' => $term->taxonomy,
+					'terms' => array( $term->term_id ),
+				),
+			),
+			'orderby' => 'term_order',
+			'order' => 'asc',
+			'suppress_filters' => false,
+		) );
+
+		?>
+		<tr class="form-field term-order-wrap">
+			<th scope="row"><?php _e( 'Post Order', 'ordermanager' ); ?></th>
+			<td>
+				<p class="description">Drag to reorder entries.</p>
+
+				<div class="ordermanager-interface">
+					<ol class="ordermanager-items">
+						<?php echo $walker->walk( $posts, -1 ); ?>
+					</ol>
+				</div>
+			</td>
+		</tr>
 		<?php
 	}
 
