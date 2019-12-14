@@ -210,6 +210,46 @@ final class Backend extends Handler {
 	public static function do_post_order_manager() {
 		global $plugin_page;
 		$post_type = str_replace( '-ordermanager', '', $plugin_page );
+		$post_type_obj = get_post_type_object( $post_type );
+
+		$walker = new Post_Walker;
+		$posts = get_posts( array(
+			'query_context' => 'ordermanager',
+			'post_type' => $post_type,
+			'post_status' => 'any',
+			'posts_per_page' => -1,
+			'orderby' => 'menu_order',
+			'order' => 'asc',
+			'suppress_filters' => false,
+		) );
+		?>
+		<div class="wrap">
+			<h1><?php echo get_admin_page_title()?></h1>
+
+			<br>
+
+			<form method="post" action="admin-post.php">
+				<input type="hidden" name="action" value="ordermanager_post_order" />
+				<input type="hidden" name="post_type" value="<?php echo $post_type ?>" />
+				<?php wp_nonce_field( "ordermanager:{$post_type}", '_wpnonce' )?>
+
+				<p class="description">
+					Drag to reorder <?php echo $post_type_obj->labels->name; ?>.
+					<?php if ( $post_type_obj->hierarchical ) : ?>
+						You can also drag child items to assign them to new parents.
+					<?php endif; ?>
+				</p>
+
+				<div class="ordermanager-interface <?= $taxonomy->hierarchical ? 'is-nested' : '' ?>">
+					<ol class="ordermanager-items">
+						<?php echo $walker->walk( $posts, 0 ); ?>
+					</ol>
+				</div>
+
+				<button type="submit" class="button-primary">Save Order</button>
+			</form>
+		</div>
+		<?php
 	}
 
 	/**
@@ -220,5 +260,43 @@ final class Backend extends Handler {
 	public static function do_term_order_manager() {
 		global $plugin_page;
 		$taxonomy = str_replace( '-ordermanager', '', $plugin_page );
+		$taxonomy_obj = get_taxonomy( $taxonomy );
+
+		$walker = new Term_Walker;
+		$terms = get_terms( array(
+			'query_context' => 'ordermanager',
+			'taxonomy' => $taxonomy,
+			'orderby' => 'term_order',
+			'order' => 'asc',
+			'hide_empty' => false,
+		) );
+		?>
+		<div class="wrap">
+			<h1><?php echo get_admin_page_title()?></h1>
+
+			<br>
+
+			<form method="post" action="admin-post.php">
+				<input type="hidden" name="action" value="ordermanager_term_order" />
+				<input type="hidden" name="taxonomy" value="<?php echo $taxonomy ?>" />
+				<?php wp_nonce_field( "ordermanager:{$taxonomy}", '_wpnonce' )?>
+
+				<p class="description">
+					Drag to reorder <?php echo $taxonomy_obj->labels->name; ?>.
+					<?php if ( $taxonomy_obj->hierarchical ) : ?>
+						You can also drag child items to assign them to new parents.
+					<?php endif; ?>
+				</p>
+
+				<div class="ordermanager-interface <?= $taxonomy->hierarchical ? 'is-nested' : '' ?>">
+					<ol class="ordermanager-items">
+						<?php echo $walker->walk( $terms, 0 ); ?>
+					</ol>
+				</div>
+
+				<button type="submit" class="button-primary">Save Order</button>
+			</form>
+		</div>
+		<?php
 	}
 }
