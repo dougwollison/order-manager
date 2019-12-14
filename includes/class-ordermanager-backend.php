@@ -228,10 +228,7 @@ final class Backend extends Handler {
 		) );
 		?>
 		<div class="wrap">
-			<h1><?php echo get_admin_page_title(); ?></h1>
-
-			<br>
-
+			<h2><?php echo get_admin_page_title(); ?></h2>
 			<form method="post" action="admin-post.php">
 				<input type="hidden" name="action" value="ordermanager_post_order" />
 				<input type="hidden" name="post_type" value="<?php echo $post_type; ?>" />
@@ -276,10 +273,7 @@ final class Backend extends Handler {
 		) );
 		?>
 		<div class="wrap">
-			<h1><?php echo get_admin_page_title(); ?></h1>
-
-			<br>
-
+			<h2><?php echo get_admin_page_title(); ?></h2>
 			<form method="post" action="admin-post.php">
 				<input type="hidden" name="action" value="ordermanager_term_order" />
 				<input type="hidden" name="post_type" value="<?php echo get_current_screen()->post_type; ?>" />
