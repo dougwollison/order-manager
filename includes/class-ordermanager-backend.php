@@ -271,7 +271,7 @@ final class Backend extends Handler {
 
 				<div class="ordermanager-interface <?php echo $post_type_obj->hierarchical ? 'is-nested' : ''; ?>">
 					<ol class="ordermanager-items">
-						<?php echo $walker->walk( $posts, 0 ); ?>
+						<?php echo $walker->walk( $posts, $post_type_obj->hierarchical ? 0 : -1 ); ?>
 					</ol>
 				</div>
 
@@ -318,7 +318,7 @@ final class Backend extends Handler {
 
 				<div class="ordermanager-interface <?php echo $taxonomy_obj->hierarchical ? 'is-nested' : ''; ?>">
 					<ol class="ordermanager-items">
-						<?php echo $walker->walk( $terms, 0 ); ?>
+						<?php echo $walker->walk( $terms, $taxonomy_obj->hierarchical ? 0 : -1 ); ?>
 					</ol>
 				</div>
 
