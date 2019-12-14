@@ -122,7 +122,17 @@ final class Manager extends Handler {
 	public static function update_options( $updated_options ) {
 		$all_options = get_option( 'ordermanager_options', array() );
 
-		return array_merge( $all_options, $updated_options );
+		$all_options['post_types'] = array();
+		foreach ( $updated_options['post_types'] as $post_type => $options ) {
+			$all_options['post_types'][ $post_type ] = array_map( 'boolval', $options );
+		}
+
+		$all_options['taxonomies'] = array();
+		foreach ( $updated_options['taxonomies'] as $taxonomy => $options ) {
+			$all_options['taxonomies'][ $taxonomy ] = array_map( 'boolval', $options );
+		}
+
+		return $all_options;
 	}
 
 	// =========================
@@ -142,7 +152,6 @@ final class Manager extends Handler {
 		add_settings_section( 'post_types', __( 'Post Types', 'ordermanager' ), null, 'ordermanager-options' );
 
 		// Build the list
-		$post_types_settings = array();
 		foreach ( get_post_types( array(
 			'show_ui' => true,
 		), 'objects' ) as $post_type ) {
@@ -151,17 +160,23 @@ final class Manager extends Handler {
 				continue;
 			}
 
-			$post_types_settings[ "post_types[{$post_type->name}]" ] = array(
-				'title' => $post_type->labels->name,
-				'type' => 'checklist',
-				'data' => array(
-					'order_manager' => __( 'Enable order manager', 'ordermanager' ),
-					'get_posts_override' => __( 'Override order on get_posts()', 'ordermanager' ),
-				),
+			// Add the settings field
+			add_settings_field(
+				"ordermanager_post_types_{$post_type->name}", // id
+				$post_type->labels->name, // title
+				array( __CLASS__, 'print_options_field' ), // callback
+				'ordermanager-options', // page
+				'post_types', // section
+				array(
+					'name' => 'taxonomies',
+					'section' => $post_type->name,
+					'options' => array(
+						'order_manager' => __( 'Enable order manager for all posts', 'ordermanager' ),
+						'get_posts_override' => __( 'Override order on get_posts()', 'ordermanager' ),
+					),
+				) // arguments
 			);
 		}
-
-		Settings::add_fields( $post_types_settings, 'options', 'post_types' );
 
 		/**
 		 * Taxonomies
@@ -170,22 +185,58 @@ final class Manager extends Handler {
 		add_settings_section( 'taxonomies', __( 'Taxonomies', 'ordermanager' ), null, 'ordermanager-options' );
 
 		// Build the list
-		$taxonomies_settings = array();
 		foreach ( get_taxonomies( array(
 			'show_ui' => true,
 		), 'objects' ) as $taxonomy ) {
-
-			$taxonomies_settings[ "taxonomies[{$taxonomy->name}]" ] = array(
-				'title' => $taxonomy->labels->name,
-				'type' => 'checklist',
-				'data' => array(
-					'order_manager' => __( 'Enable order manager', 'ordermanager' ),
-					'get_terms_override' => __( 'Override order on get_terms()', 'ordermanager' ),
-				),
+			// Add the settings field
+			add_settings_field(
+				"ordermanager_taxonomies_{$taxonomy->name}", // id
+				$taxonomy->labels->name, // title
+				array( __CLASS__, 'print_options_field' ), // callback
+				'ordermanager-options', // page
+				'taxonomies', // section
+				array(
+					'title' => $taxonomy->labels->name,
+					'name' => 'taxonomies',
+					'section' => $taxonomy->name,
+					'options' => array(
+						'order_manager' => __( 'Enable order manager for all terms', 'ordermanager' ),
+						'get_terms_override' => __( 'Override order on get_terms()', 'ordermanager' ),
+						'post_order_manager' => __( 'Enable post order manager for each term', 'ordermanager' ),
+						'get_posts_override' => __( 'Override order on get_posts() for each term', 'ordermanager' ),
+					),
+				) // arguments
 			);
 		}
+	}
 
-		Settings::add_fields( $taxonomies_settings, 'options', 'taxonomies' );
+	/**
+	 * Print the checkboxes for the options.
+	 *
+	 * @since 1.0.0
+	 */
+	public static function print_options_field( $settings ) {
+		$name = $settings['name'];
+		$section = $settings['section'];
+
+		$list = Registry::get( $name );
+		$data = $list[ $section ] ?? array();
+		?>
+		<fieldset>
+			<legend class="screen-reader-text"><?= $section['title'] ?></legend>
+			<?php foreach ( $settings['options'] as $field => $label ) :
+				$field_id = "ordermanager_{$name}_{$section}_{$field}";
+				$field_name = "ordermanager_options[{$name}][{$section}][{$field}]";
+				?>
+				<label for="<?= $field_id ?>">
+					<input type="hidden" name="<?= $field_name ?>" value="0" />
+					<input type="checkbox" id="<?= $field_id ?>" name="<?= $field_name ?>" value="1" <?php checked( $data[ $field ] ?? false ); ?> />
+					<?= $label ?>
+				</label>
+				<br>
+			<?php endforeach; ?>
+		</fieldset>
+		<?php
 	}
 
 	// =========================
