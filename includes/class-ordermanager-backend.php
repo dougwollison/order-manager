@@ -59,6 +59,9 @@ final class Backend extends Handler {
 
 		// Script/Style Enqueues
 		self::add_hook( 'admin_enqueue_scripts', 'enqueue_assets' );
+
+		// Interface Additions
+		self::add_hook( 'admin_menu', 'add_order_managers' );
 	}
 
 	// =========================
@@ -137,5 +140,85 @@ final class Backend extends Handler {
 		wp_localize_script( 'ordermanager-admin-js', 'ordermanagerL10n', array(
 			// to be written
 		) );
+	}
+
+	// =========================
+	// ! Interface Additions
+	// =========================
+
+	/**
+	 * Register order manager pages for enabled post types/taxonomies.
+	 *
+	 * @since 1.0.0
+	 */
+	public static function add_order_managers() {
+		$post_types = Registry::get( 'post_types' );
+		$taxonomies = Registry::get( 'taxonomies' );
+
+		foreach ( $post_types as $post_type => $options ) {
+			if ( ! $options['order_manager'] ) {
+				continue;
+			}
+
+			$post_type_obj = get_post_type_object( $post_type );
+
+			$parent_slug = 'edit.php';
+			if ( $post_type != 'post' ) {
+				$parent_slug = "edit.php?post_type={$post_type}";
+			}
+
+			add_submenu_page(
+				$parent_slug, // parent slug
+				sprintf( __( 'Manage %s Order', 'ordermanager' ), $post_type_obj->labels->singular_name ), // page title
+				sprintf( __( '%s Order', 'ordermanager' ), $post_type_obj->labels->singular_name ), // menu title
+				$post_type_obj->cap->edit_posts, // capability
+				"{$post_type}-ordermanager", // menu slug
+				array( __CLASS__, 'do_post_order_manager' ) // callback function
+			);
+		}
+
+		foreach ( $taxonomies as $taxonomy => $options ) {
+			if ( ! $options['order_manager'] ) {
+				continue;
+			}
+
+			$taxonomy_obj = get_taxonomy( $taxonomy );
+
+			foreach ( $taxonomy_obj->object_type as $post_type ) {
+				$parent_slug = 'edit.php';
+				if ( $post_type != 'post' ) {
+					$parent_slug = "edit.php?post_type={$post_type}";
+				}
+
+				add_submenu_page(
+					$parent_slug, // parent slug
+					sprintf( __( 'Manage %s Order', 'ordermanager' ), $taxonomy_obj->labels->singular_name ), // page title
+					sprintf( __( '%s Order', 'ordermanager' ), $taxonomy_obj->labels->singular_name ), // menu title
+					$taxonomy_obj->cap->manage_terms, // capability
+					"{$taxonomy}-ordermanager", // menu slug
+					array( __CLASS__, 'do_term_order_manager' ) // callback function
+				);
+			}
+		}
+	}
+
+	/**
+	 * Render a post order manager page.
+	 *
+	 * @since 1.0.0
+	 */
+	public static function do_post_order_manager() {
+		global $plugin_page;
+		$post_type = str_replace( '-ordermanager', '', $plugin_page );
+	}
+
+	/**
+	 * Render a term order manager page.
+	 *
+	 * @since 1.0.0
+	 */
+	public static function do_term_order_manager() {
+		global $plugin_page;
+		$taxonomy = str_replace( '-ordermanager', '', $plugin_page );
 	}
 }
