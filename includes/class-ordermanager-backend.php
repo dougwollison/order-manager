@@ -244,7 +244,7 @@ final class Backend extends Handler {
 					<?php endif; ?>
 				</p>
 
-				<div class="ordermanager-interface <?php echo $taxonomy->hierarchical ? 'is-nested' : ''; ?>">
+				<div class="ordermanager-interface <?php echo $post_type_obj->hierarchical ? 'is-nested' : ''; ?>">
 					<ol class="ordermanager-items">
 						<?php echo $walker->walk( $posts, 0 ); ?>
 					</ol>
