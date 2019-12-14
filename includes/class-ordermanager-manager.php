@@ -168,7 +168,7 @@ final class Manager extends Handler {
 				'ordermanager-options', // page
 				'post_types', // section
 				array(
-					'name' => 'taxonomies',
+					'name' => 'post_types',
 					'section' => $post_type->name,
 					'options' => array(
 						'order_manager' => __( 'Enable order manager for all posts', 'ordermanager' ),
