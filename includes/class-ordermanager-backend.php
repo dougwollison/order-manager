@@ -228,13 +228,13 @@ final class Backend extends Handler {
 		) );
 		?>
 		<div class="wrap">
-			<h1><?php echo get_admin_page_title()?></h1>
+			<h1><?php echo get_admin_page_title(); ?></h1>
 
 			<br>
 
 			<form method="post" action="admin-post.php">
 				<input type="hidden" name="action" value="ordermanager_post_order" />
-				<input type="hidden" name="post_type" value="<?php echo $post_type ?>" />
+				<input type="hidden" name="post_type" value="<?php echo $post_type; ?>" />
 				<?php wp_nonce_field( "ordermanager_post_order:{$post_type}", '_wpnonce' )?>
 
 				<p class="description">
@@ -244,7 +244,7 @@ final class Backend extends Handler {
 					<?php endif; ?>
 				</p>
 
-				<div class="ordermanager-interface <?= $taxonomy->hierarchical ? 'is-nested' : '' ?>">
+				<div class="ordermanager-interface <?php echo $taxonomy->hierarchical ? 'is-nested' : ''; ?>">
 					<ol class="ordermanager-items">
 						<?php echo $walker->walk( $posts, 0 ); ?>
 					</ol>
@@ -276,13 +276,14 @@ final class Backend extends Handler {
 		) );
 		?>
 		<div class="wrap">
-			<h1><?php echo get_admin_page_title()?></h1>
+			<h1><?php echo get_admin_page_title(); ?></h1>
 
 			<br>
 
 			<form method="post" action="admin-post.php">
 				<input type="hidden" name="action" value="ordermanager_term_order" />
-				<input type="hidden" name="taxonomy" value="<?php echo $taxonomy ?>" />
+				<input type="hidden" name="post_type" value="<?php echo get_current_screen()->post_type; ?>" />
+				<input type="hidden" name="taxonomy" value="<?php echo $taxonomy; ?>" />
 				<?php wp_nonce_field( "ordermanager_term_order:{$taxonomy}", '_wpnonce' )?>
 
 				<p class="description">
@@ -292,7 +293,7 @@ final class Backend extends Handler {
 					<?php endif; ?>
 				</p>
 
-				<div class="ordermanager-interface <?= $taxonomy->hierarchical ? 'is-nested' : '' ?>">
+				<div class="ordermanager-interface <?php echo $taxonomy->hierarchical ? 'is-nested' : ''; ?>">
 					<ol class="ordermanager-items">
 						<?php echo $walker->walk( $terms, 0 ); ?>
 					</ol>

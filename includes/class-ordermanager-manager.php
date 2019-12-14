@@ -223,15 +223,15 @@ final class Manager extends Handler {
 		$data = $list[ $section ] ?? array();
 		?>
 		<fieldset>
-			<legend class="screen-reader-text"><?= $section['title'] ?></legend>
+			<legend class="screen-reader-text"><?php echo $section['title']; ?></legend>
 			<?php foreach ( $settings['options'] as $field => $label ) :
 				$field_id = "ordermanager_{$name}_{$section}_{$field}";
 				$field_name = "ordermanager_options[{$name}][{$section}][{$field}]";
 				?>
-				<label for="<?= $field_id ?>">
-					<input type="hidden" name="<?= $field_name ?>" value="0" />
-					<input type="checkbox" id="<?= $field_id ?>" name="<?= $field_name ?>" value="1" <?php checked( $data[ $field ] ?? false ); ?> />
-					<?= $label ?>
+				<label for="<?php echo $field_id; ?>">
+					<input type="hidden" name="<?php echo $field_name; ?>" value="0" />
+					<input type="checkbox" id="<?php echo $field_id; ?>" name="<?php echo $field_name; ?>" value="1" <?php checked( $data[ $field ] ?? false ); ?> />
+					<?php echo $label; ?>
 				</label>
 				<br>
 			<?php endforeach; ?>
@@ -254,9 +254,9 @@ final class Manager extends Handler {
 		global $plugin_page;
 ?>
 		<div class="wrap">
-			<h2><?php echo get_admin_page_title(); ?></h2>
+			<h2><?php echo get_admin_page_title();; ?></h2>
 			<?php settings_errors(); ?>
-			<form method="post" action="options.php" id="<?php echo $plugin_page; ?>-form">
+			<form method="post" action="options.php" id="<?php echo $plugin_page;; ?>-form">
 				<?php settings_fields( $plugin_page ); ?>
 				<?php do_settings_sections( $plugin_page ); ?>
 				<?php submit_button(); ?>
