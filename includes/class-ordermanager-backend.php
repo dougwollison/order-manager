@@ -229,6 +229,7 @@ final class Backend extends Handler {
 
 			if ( $options['post_order_manager'] ) {
 				self::add_hook( "{$taxonomy}_edit_form_fields", 'do_term_post_order_manager', 10, 1 );
+				self::add_hook( "edit_{$taxonomy}", 'save_term_post_order', 10, 1 );
 			}
 		}
 	}
@@ -429,7 +430,7 @@ final class Backend extends Handler {
 	}
 
 	/**
-	 * Update the term_order and possibly parent of the terms.
+	 * Update the menu_order and possibly parent of the terms.
 	 *
 	 * @since 1.0.0
 	 */
@@ -477,5 +478,21 @@ final class Backend extends Handler {
 		$redirect = add_query_arg( 'settings-updated', 'true',  wp_get_referer() );
 		wp_redirect( $redirect );
 		exit;
+	}
+
+	/**
+	 * Save the post_order for the term.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param int $term_id Term ID.
+	 */
+	public static function save_term_post_order( $term_id ) {
+		// Don't try if not being updated via edit-tags.php or not allowed to edit
+		if ( ! wp_verify_nonce( $_POST['_wpnonce'] ?? '', "update-tag_{$term_id}" ) || ! current_user_can( 'edit_term', $term_id ) ) {
+			return;
+		}
+
+		update_term_meta( $term_id, 'post_order', $_POST['order'] ?? '' );
 	}
 }
