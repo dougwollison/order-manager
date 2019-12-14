@@ -210,6 +210,50 @@ final class Registry {
 	}
 
 	// =========================
+	// ! Property Testing
+	// =========================
+
+	/**
+	 * Test if a post type is supported and with what.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $post_type The post type to check support for.
+	 * @param string $support   Optional. The support to check, defaults to "order_manager".
+	 *
+	 * @return bool Wether or not the post type is supported.
+	 */
+	public static function is_post_type_supported( $post_type, $support = 'order_manager' ) {
+		$post_types = Registry::get( 'post_Type' );
+
+		if ( ! isset( $post_types[ $post_type ] ) ) {
+			return false;
+		}
+
+		return $post_types[ $post_type ][ $support ] ?? false;
+	}
+
+	/**
+	 * Test if a taxonomy is supported and with what.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $taxonomy The taxonomy to check support for.
+	 * @param string $support  Optional. The support to check, defaults to "order_manager".
+	 *
+	 * @return bool Wether or not the post type is supported.
+	 */
+	public static function is_taxonomy_supported( $taxonomy, $support = 'order_manager' ) {
+		$taxonomies = Registry::get( 'taxonomies' );
+
+		if ( ! isset( $taxonomies[ $taxonomy ] ) ) {
+			return false;
+		}
+
+		return $taxonomies[ $taxonomy ][ $support ] ?? false;
+	}
+
+	// =========================
 	// ! Setup Method
 	// =========================
 

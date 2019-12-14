@@ -162,8 +162,7 @@ final class Backend extends Handler {
 
 		// If an edit term page, enqueue if the taxonomy has post order enabled
 		if ( $screen->base == 'term' ) {
-			$taxonomies = Registry::get( 'taxonomies' );
-			$proceed = isset( $taxonomies[ $screen->taxonomy ] ) && $taxonomies[ $screen->taxonomy ][ 'post_order_manager' ];
+			$proceed = Registry::is_taxonomy_supported( $screen->taxonomy, 'post_order_manager' );
 		}
 
 		if ( $proceed ) {
@@ -354,7 +353,6 @@ final class Backend extends Handler {
 			'order' => 'asc',
 			'suppress_filters' => false,
 		) );
-
 		?>
 		<tr class="form-field term-order-wrap">
 			<th scope="row"><?php _e( 'Post Order', 'ordermanager' ); ?></th>
