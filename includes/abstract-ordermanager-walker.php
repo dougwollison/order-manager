@@ -41,7 +41,7 @@ abstract class Walker extends \Walker {
 			$n = '';
 		}
 		$indent  = str_repeat( $t, $depth );
-		$output .= "{$n}{$indent}<ol>{$n}";
+		$output .= "{$n}{$indent}<ol class='ordermanager-items'>{$n}";
 	}
 
 	/**
@@ -95,12 +95,15 @@ abstract class Walker extends \Walker {
 		}
 
 		$output .= $indent . sprintf(
-			'<li><div class="ordermanager-item-label">
-				<input type="hidden" name="order[]" value="%d" class="ordermanager-item-id" />
-				%s
-			</div>',
+			'<li class="ordermanager-item">
+				<input type="hidden" name="order[]" value="%1$d" class="ordermanager-item-id" />
+				<input type="hidden" name="parents[%1$d]" value="%3$d" class="ordermanager-item-parent" />
+				<div class="ordermanager-item-label">
+					%2$s
+				</div>',
 			$object->{$this->db_fields['id']},
-			$object->{$this->db_fields['name']}
+			$object->{$this->db_fields['name']},
+			$object->{$this->db_fields['parent']}
 		);
 	}
 
