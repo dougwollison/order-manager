@@ -122,7 +122,8 @@ final class Post_Walker extends \Walker {
 		}
 
 		$output .= $indent . sprintf(
-			'<li>%s',
+			'<li><input type="hidden" name="post_order[]" value="%d" />%s',
+			$post->ID,
 			apply_filters( 'the_title', $post->post_title, $post->ID )
 		);
 	}

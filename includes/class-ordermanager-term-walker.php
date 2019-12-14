@@ -122,7 +122,8 @@ final class Term_Walker extends \Walker {
 		}
 
 		$output .= $indent . sprintf(
-			'<li>%s',
+			'<li><input type="hidden" name="term_order[]" value="%d" />%s',
+			$term->term_id,
 			$term->name
 		);
 	}
