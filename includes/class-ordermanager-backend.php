@@ -135,10 +135,10 @@ final class Backend extends Handler {
 	 */
 	public static function enqueue_assets(){
 		// Admin styling
-		wp_enqueue_style( 'ordermanager-admin', plugins_url( 'css/admin.css', ORDERMANAGER_PLUGIN_FILE ), '1.0.0', 'screen' );
+		wp_enqueue_style( 'ordermanager-admin', plugins_url( 'css/admin.css', ORDERMANAGER_PLUGIN_FILE ), ORDERMANAGER_PLUGIN_VERSION, 'screen' );
 
 		// Admin javascript
-		wp_enqueue_script( 'ordermanager-admin-js', plugins_url( 'js/admin.js', ORDERMANAGER_PLUGIN_FILE ), array(), '1.0.0' );
+		wp_enqueue_script( 'ordermanager-admin-js', plugins_url( 'js/admin.js', ORDERMANAGER_PLUGIN_FILE ), array(), ORDERMANAGER_PLUGIN_VERSION );
 
 		// Localize the javascript
 		wp_localize_script( 'ordermanager-admin-js', 'ordermanagerL10n', array(
