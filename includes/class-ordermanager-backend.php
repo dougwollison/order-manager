@@ -57,7 +57,8 @@ final class Backend extends Handler {
 		// Plugin information
 		self::add_hook( 'in_plugin_update_message-' . plugin_basename( ORDERMANAGER_PLUGIN_FILE ), 'update_notice' );
 
-		// Script/Style Enqueues
+		// Styles and Scripts
+		self::add_hook( 'admin_init', 'register_assets' );
 		self::add_hook( 'admin_enqueue_scripts', 'enqueue_assets' );
 
 		// Interface Additions
@@ -125,25 +126,49 @@ final class Backend extends Handler {
 	}
 
 	// =========================
-	// ! Script/Style Enqueues
+	// ! Styles and Scripts
 	// =========================
 
 	/**
-	 * Enqueue necessary styles and scripts.
+	 * Register styles and scripts.
 	 *
 	 * @since 1.0.0
 	 */
-	public static function enqueue_assets(){
+	public static function register_assets(){
 		// Admin styling
-		wp_enqueue_style( 'ordermanager-admin', plugins_url( 'css/admin.css', ORDERMANAGER_PLUGIN_FILE ), ORDERMANAGER_PLUGIN_VERSION, 'screen' );
+		wp_register_style( 'ordermanager-admin', plugins_url( 'css/admin.css', ORDERMANAGER_PLUGIN_FILE ), ORDERMANAGER_PLUGIN_VERSION, 'screen' );
 
 		// Admin javascript
-		wp_enqueue_script( 'ordermanager-admin-js', plugins_url( 'js/admin.js', ORDERMANAGER_PLUGIN_FILE ), array(), ORDERMANAGER_PLUGIN_VERSION );
+		wp_register_script( 'ordermanager-admin-js', plugins_url( 'js/admin.js', ORDERMANAGER_PLUGIN_FILE ), array( 'jquery-ui-sortable' ), ORDERMANAGER_PLUGIN_VERSION );
 
 		// Localize the javascript
 		wp_localize_script( 'ordermanager-admin-js', 'ordermanagerL10n', array(
 			// to be written
 		) );
+	}
+
+	/**
+	 * Enqueue styles and scripts if applicable.
+	 *
+	 * @since 1.0.0
+	 */
+	public static function enqueue_assets(){
+		global $plugin_page;
+		$screen = get_current_screen();
+
+		// Enqueue if on an post/term order page
+		$proceed = strpos( $plugin_page, '-ordermanager' ) > 0;
+
+		// If an edit term page, enqueue if the taxonomy has post order enabled
+		if ( $screen->base == 'term' ) {
+			$taxonomies = Registry::get( 'taxonomies' );
+			$proceed = isset( $taxonomies[ $screen->taxonomy ] ) && $taxonomies[ $screen->taxonomy ][ 'post_order_manager' ];
+		}
+
+		if ( $proceed ) {
+			wp_enqueue_style( 'ordermanager-admin' );
+			wp_enqueue_script( 'ordermanager-admin-js' );
+		}
 	}
 
 	// =========================
