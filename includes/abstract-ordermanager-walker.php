@@ -95,7 +95,10 @@ abstract class Walker extends \Walker {
 		}
 
 		$output .= $indent . sprintf(
-			'<li><input type="hidden" name="term_order[]" value="%d" />%s',
+			'<li><div class="ordermanager-item-label">
+				<input type="hidden" name="order[]" value="%d" class="ordermanager-item-id" />
+				%s
+			</div>',
 			$object->{$this->db_fields['id']},
 			$object->{$this->db_fields['name']}
 		);

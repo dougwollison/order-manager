@@ -385,7 +385,7 @@ final class Backend extends Handler {
 			exit;
 		}
 
-		if ( ! isset( $_POST['post_order'] ) || empty( $_POST['post_order'] ) ) {
+		if ( ! isset( $_POST['order'] ) || empty( $_POST['order'] ) ) {
 			wp_die( __( 'No post order provided.', 'ordermanager' ) );
 			exit;
 		}
@@ -397,7 +397,7 @@ final class Backend extends Handler {
 			cheatin();
 		}
 
-		$post_order = $_POST['post_order'];
+		$post_order = $_POST['order'];
 		foreach ( $post_order as $order => $post_id ) {
 			wp_update_post( array(
 				'ID'         => $post_id,
@@ -426,7 +426,7 @@ final class Backend extends Handler {
 			exit;
 		}
 
-		if ( ! isset( $_POST['term_order'] ) || empty( $_POST['term_order'] ) ) {
+		if ( ! isset( $_POST['order'] ) || empty( $_POST['order'] ) ) {
 			wp_die( __( 'No term order provided.', 'ordermanager' ) );
 			exit;
 		}
@@ -437,7 +437,7 @@ final class Backend extends Handler {
 			cheatin();
 		}
 
-		$term_order = $_POST['term_order'];
+		$term_order = $_POST['order'];
 		foreach ( $term_order as $order => $term_id ) {
 			update_term_meta( $term_id, 'menu_order', $order );
 		}
