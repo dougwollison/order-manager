@@ -386,24 +386,38 @@ final class Backend extends Handler {
 			exit;
 		}
 
+		$post_type = $_POST['post_type'];
+		$post_type_obj = get_post_type_object( $post_type );
+
+		if ( ! $post_type_obj ) {
+			wp_die( __( 'Invalid post type.', 'ordermanager' ) );
+			exit;
+		}
+
 		if ( ! isset( $_POST['order'] ) || empty( $_POST['order'] ) ) {
 			wp_die( __( 'No post order provided.', 'ordermanager' ) );
 			exit;
 		}
 
 		// Fail if nonce does
-		$post_type = $_POST['post_type'];
 		check_admin_referer( "ordermanager_post_order:{$post_type}" );
 		if ( ! wp_verify_nonce( $_POST['_wpnonce'], "ordermanager_post_order:{$post_type}" ) ) {
 			cheatin();
 		}
 
 		$post_order = $_POST['order'];
+		$post_parent = $_POST['parents'] ?? array();
 		foreach ( $post_order as $order => $post_id ) {
-			wp_update_post( array(
+			$changes = array(
 				'ID'         => $post_id,
 				'menu_order' => $order,
-			) );
+			);
+
+			if ( $post_type_obj->hierarchical && isset( $post_parent[ $post_id ] ) ) {
+				$changes['post_parent'] = $post_parent[ $post_id ];
+			}
+
+			wp_update_post( $changes );
 		}
 
 		// Add notice about order being updated
@@ -427,19 +441,33 @@ final class Backend extends Handler {
 			exit;
 		}
 
+		$taxonomy = $_POST['taxonomy'];
+		$taxonomy_obj = get_taxonomy( $taxonomy );
+
+		if ( ! $taxonomy_obj ) {
+			wp_die( __( 'Invalid taxonomy.', 'ordermanager' ) );
+			exit;
+		}
+
 		if ( ! isset( $_POST['order'] ) || empty( $_POST['order'] ) ) {
 			wp_die( __( 'No term order provided.', 'ordermanager' ) );
 			exit;
 		}
 
-		$taxonomy = $_POST['taxonomy'];
 		check_admin_referer( "ordermanager_term_order:{$taxonomy}" );
 		if ( ! wp_verify_nonce( $_POST['_wpnonce'], "ordermanager_term_order:{$taxonomy}" ) ) {
 			cheatin();
 		}
 
 		$term_order = $_POST['order'];
+		$term_parent = $_POST['parents'] ?? array();
 		foreach ( $term_order as $order => $term_id ) {
+			if ( $taxonomy_obj->hierarchical && isset( $term_parent[ $term_id ] ) ) {
+				wp_update_term( $term_id, $taxonomy, array(
+					'parent' => $term_parent[ $term_id ],
+				) );
+			}
+
 			update_term_meta( $term_id, 'menu_order', $order );
 		}
 
