@@ -350,12 +350,12 @@ final class Backend extends Handler {
 		}
 
 		if ( ! isset( $_POST['term_order'] ) || empty( $_POST['term_order'] ) ) {
-			wp_die( __( 'No post order provided.', 'ordermanager' ) );
+			wp_die( __( 'No term order provided.', 'ordermanager' ) );
 			exit;
 		}
 
-		$post_type = $_POST['post_type'];
-		if ( ! wp_verify_nonce( $_POST[ "ordermanager_term_order:{$post_type}" ] ) ) {
+		$taxonomy = $_POST['taxonomy'];
+		if ( ! wp_verify_nonce( $_POST[ "ordermanager_term_order:{$taxonomy}" ] ) ) {
 			cheatin();
 		}
 
