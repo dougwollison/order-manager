@@ -62,6 +62,10 @@ final class Backend extends Handler {
 
 		// Interface Additions
 		self::add_hook( 'admin_menu', 'add_order_managers' );
+
+		// Order Change Saving
+		self::add_hook( 'admin_post_ordermanager_post_order', 'save_post_order' );
+		self::add_hook( 'admin_post_ordermanager_term_order', 'save_term_order' );
 	}
 
 	// =========================
@@ -298,5 +302,66 @@ final class Backend extends Handler {
 			</form>
 		</div>
 		<?php
+	}
+
+	// =========================
+	// ! Order Change Saving
+	// =========================
+
+	/**
+	 * Update the menu_order and possibly post_parent of the posts.
+	 *
+	 * @since 1.0.0
+	 */
+	public static function save_post_order() {
+		if ( ! isset( $_POST['post_type'] ) || empty( $_POST['post_type'] ) ) {
+			wp_die( __( 'Post type not specified.', 'ordermanager' ) );
+			exit;
+		}
+
+		if ( ! isset( $_POST['post_order'] ) || empty( $_POST['post_order'] ) ) {
+			wp_die( __( 'No post order provided.', 'ordermanager' ) );
+			exit;
+		}
+
+		$post_type = $_POST['post_type'];
+		if ( ! wp_verify_nonce( $_POST[ "ordermanager_post_order:{$post_type}" ] ) ) ) {
+			cheatin();
+		}
+
+		$order = $_POST['post_order'];
+		foreach ( $order as $order => $post_id ) {
+			wp_update_post( array(
+				'ID'         => $post_id,
+				'menu_order' => $order,
+			) );
+		}
+	}
+
+	/**
+	 * Update the term_order and possibly parent of the terms.
+	 *
+	 * @since 1.0.0
+	 */
+	public static function save_term_order() {
+		if ( ! isset( $_POST['taxonomy'] ) || empty( $_POST['taxonomy'] ) ) {
+			wp_die( __( 'Taxonomy not specified.', 'ordermanager' ) );
+			exit;
+		}
+
+		if ( ! isset( $_POST['term_order'] ) || empty( $_POST['term_order'] ) ) {
+			wp_die( __( 'No post order provided.', 'ordermanager' ) );
+			exit;
+		}
+
+		$post_type = $_POST['post_type'];
+		if ( ! wp_verify_nonce( $_POST[ "ordermanager_term_order:{$post_type}" ] ) ) ) {
+			cheatin();
+		}
+
+		$order = $_POST['term_order'];
+		foreach ( $order as $order => $term_id ) {
+			update_term_meta( $id, 'menu_order', $order );
+		}
 	}
 }
