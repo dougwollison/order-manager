@@ -48,6 +48,14 @@
 		"oAP": "/includes/abstract-ordermanager-handler.php",
 		"oF": 0
 		},
+	"/includes/abstract-ordermanager-walker.php": {
+		"cB": 0,
+		"ft": 8192,
+		"hM": 0,
+		"oA": 1,
+		"oAP": "/includes/abstract-ordermanager-walker.php",
+		"oF": 0
+		},
 	"/includes/autoloader.php": {
 		"cB": 0,
 		"ft": 8192,
@@ -188,6 +196,36 @@
 		"hM": 0,
 		"oA": 0,
 		"oAP": "/js/admin.min.js.map",
+		"oF": 0
+		},
+	"/js/jquery.mjs.nestedSortable.js": {
+		"bF": 0,
+		"ft": 64,
+		"ma": 1,
+		"mi": 1,
+		"oA": 0,
+		"oAP": "/js/jquery.mjs.nestedSortable.min.js",
+		"oF": 0,
+		"sC": 0,
+		"tS": 0
+		},
+	"/js/jquery.mjs.nestedSortable.min.js": {
+		"bF": 0,
+		"ft": 64,
+		"ma": 1,
+		"mi": 1,
+		"oA": 0,
+		"oAP": "/js/jquery.mjs.nestedSortable.min.min.js",
+		"oF": 0,
+		"sC": 3,
+		"tS": 1
+		},
+	"/js/jquery.mjs.nestedSortable.min.js.map": {
+		"cB": 0,
+		"ft": 8192,
+		"hM": 0,
+		"oA": 0,
+		"oAP": "/js/jquery.mjs.nestedSortable.min.js.map",
 		"oF": 0
 		},
 	"/languages/order-manager.pot": {
