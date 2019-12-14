@@ -231,7 +231,7 @@ final class Backend extends Handler {
 			<form method="post" action="admin-post.php">
 				<input type="hidden" name="action" value="ordermanager_post_order" />
 				<input type="hidden" name="post_type" value="<?php echo $post_type ?>" />
-				<?php wp_nonce_field( "ordermanager:{$post_type}", '_wpnonce' )?>
+				<?php wp_nonce_field( "ordermanager_post_order:{$post_type}", '_wpnonce' )?>
 
 				<p class="description">
 					Drag to reorder <?php echo $post_type_obj->labels->name; ?>.
@@ -279,7 +279,7 @@ final class Backend extends Handler {
 			<form method="post" action="admin-post.php">
 				<input type="hidden" name="action" value="ordermanager_term_order" />
 				<input type="hidden" name="taxonomy" value="<?php echo $taxonomy ?>" />
-				<?php wp_nonce_field( "ordermanager:{$taxonomy}", '_wpnonce' )?>
+				<?php wp_nonce_field( "ordermanager_term_order:{$taxonomy}", '_wpnonce' )?>
 
 				<p class="description">
 					Drag to reorder <?php echo $taxonomy_obj->labels->name; ?>.
