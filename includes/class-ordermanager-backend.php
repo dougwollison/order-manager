@@ -329,8 +329,8 @@ final class Backend extends Handler {
 			cheatin();
 		}
 
-		$order = $_POST['post_order'];
-		foreach ( $order as $order => $post_id ) {
+		$post_order = $_POST['post_order'];
+		foreach ( $post_order as $order => $post_id ) {
 			wp_update_post( array(
 				'ID'         => $post_id,
 				'menu_order' => $order,
@@ -359,9 +359,9 @@ final class Backend extends Handler {
 			cheatin();
 		}
 
-		$order = $_POST['term_order'];
-		foreach ( $order as $order => $term_id ) {
-			update_term_meta( $id, 'menu_order', $order );
+		$term_order = $_POST['term_order'];
+		foreach ( $term_order as $order => $term_id ) {
+			update_term_meta( $term_id, 'menu_order', $order );
 		}
 	}
 }
