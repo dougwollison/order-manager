@@ -81,7 +81,10 @@ final class System extends Handler {
 	 */
 	public static function register_hooks() {
 		// Query Manipulation
-		self::add_hook( 'parse_term_query', 'handle_term_order', 10, 1 );
+		self::add_hook( 'parse_query', 'maybe_set_post_menu_order', 10, 1 );
+		self::add_hook( 'parse_query', 'maybe_set_post_term_order', 10, 1 );
+		self::add_hook( 'parse_term_query', 'maybe_set_term_menu_order', 10, 1 );
+		self::add_hook( 'parse_term_query', 'handle_term_order', 20, 1 );
 		self::add_hook( 'posts_orderby', 'handle_term_post_order', 10, 2 );
 	}
 
@@ -90,11 +93,105 @@ final class System extends Handler {
 	// =========================
 
 	/**
+	 * Set the orderby arg to menu_order if not explicitly set.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param WP_Query $query Current instance of WP_Query.
+	 */
+	public static function maybe_set_post_menu_order( $query ) {
+		// Skip if orderby is already specified
+		if ( isset( $query->query['orderby'] ) ) {
+			return;
+		}
+
+		// Get the specified post type
+		$post_type = $query->get( 'post_type' ) ?: array();
+
+		// Skip if none or more than one is specified
+		if ( ! $post_type || $post_type == 'any' || is_array( $post_type ) && count( $post_type ) > 1 ) {
+			return;
+		}
+
+		// Convert to string if needed
+		if ( is_array( $post_type ) ) {
+			$post_type = $post_type[0];
+		}
+
+		// Skip if post type does not support the override
+		if ( ! Registry::is_post_type_supported( $post_type, 'get_posts_override' ) ) {
+			return;
+		}
+
+		// Set orderby to menu_order, asc if not explicitly set
+		$query->set( 'orderby', 'menu_order' );
+		$query->set( 'order', $query->query['order'] ?? 'asc' );
+	}
+
+	/**
+	 * Set the orderby arg to term_order if applicable and not explicitly set.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param WP_Query $query Current instance of WP_Query.
+	 */
+	public static function maybe_set_post_term_order( $query ) {
+		// Skip if orderby is already specified
+		if ( isset( $query->query['orderby'] ) ) {
+			return;
+		}
+
+		// Skip if none or multipe tax queries specified
+		if ( count( $query->tax_query->queries ) != 1 ) {
+			return;
+		}
+
+		// Skip if taxonomy is not supporter or multiple terms are requested
+		$tax_query = $query->tax_query->queries[0];
+		if ( ! Registry::is_taxonomy_supported( $tax_query['taxonomy'], 'get_posts_override' ) || count( $tax_query['terms'] ) != 1 ) {
+			return;
+		}
+
+		// Set orderby to menu_order, asc if not explicitly set
+		$query->set( 'orderby', 'term_order' );
+		$query->set( 'order', $query->query['order'] ?? 'asc' );
+	}
+
+	/**
+	 * Set the orderby arg to menu_order if not explicitly set.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param WP_Term_Query $query Current instance of WP_Term_Query.
+	 */
+	public static function maybe_set_term_menu_order( $query ) {
+		// Skip if orderby is already not "name"
+		if ( $query->query_vars['orderby'] != 'name' ) {
+			return;
+		}
+
+		$taxonomy = $query->query_vars['taxonomy'];
+
+		// Skip if none or more than one is specified
+		if ( ! $taxonomy || count( $taxonomy ) > 1 ) {
+			return;
+		}
+
+		// Skip if post type does not support the override
+		if ( ! Registry::is_taxonomy_supported( $taxonomy[0], 'get_terms_override' ) ) {
+			return;
+		}
+
+		// Set orderby to menu_order, asc
+		$query->query_vars['orderby'] = 'menu_order';
+	}
+
+	/**
 	 * Rewrite query to handle "menu_order" orderby argument.
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param WP_Term_Query $this Current instance of WP_Term_Query.
+	 * @param WP_Term_Query $query Current instance of WP_Term_Query.
 	 */
 	public static function handle_term_order( $query ) {
 		$vars = &$query->query_vars;
