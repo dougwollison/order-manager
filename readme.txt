@@ -1,6 +1,6 @@
 === Order Manager ===
 Contributors: dougwollison
-Tags: order, sort, post order, term order
+Tags: order, order manager, sort, post order, term order, sort posts, sort terms
 Requires at least: 5.2
 Tested up to: 5.3.1
 Requires PHP: 5.6.20
