@@ -134,18 +134,29 @@ final class System extends Handler {
 	public static function handle_term_post_order( $orderby, $query ) {
 		global $wpdb;
 
-		if ( $query->get( 'orderby' ) == 'term_order' ) {
-			$tax_query = $query->tax_query;
-			// If for a single term in a single taxonomy, use post order
-			if ( count( $tax_query->queries ) == 1 && count( $tax_query->queries[0]['terms'] ) == 1
-			&& Registry::is_taxonomy_supported( $tax_query->queries[0]['taxonomy'], 'post_order_manager' )
-			&& ( $post_order = get_term_meta( $tax_query->queries[0]['terms'][0], 'post_order', true ) ) ) {
-				$post_order = array_map( 'absint', $post_order ); // ensure a list of numbers
+		// Only attempt if term_order is requested and there's only a single tax query
+		if ( $query->get( 'orderby' ) == 'term_order' && count( $query->tax_query->queries ) == 1 ) {
+			$tax_query = $query->tax_query->queries[0];
+			$terms = $tax_query['terms'];
+			$taxonomy = $tax_query['taxonomy'];
 
-				$post_order = implode( ',', $post_order );
-				$order = $query->get( 'order' );
+			// Only proceed if for a single term and a supported taxonomy
+			if ( count( $terms ) == 1 && Registry::is_taxonomy_supported( $taxonomy, 'post_order_manager' ) ) {
+				// Fetch the term
+				$term = get_term_by( $tax_query['field'], $terms[0], $taxonomy );
 
-				$orderby = "FIELD({$wpdb->posts}.ID,{$post_order}) {$order}";
+				// Fetch the post order
+				$post_order = get_term_meta( $term->term_id, 'post_order', true );
+
+				// Only proceed if there is a post order
+				if ( $post_order ) {
+					$post_order = array_map( 'absint', $post_order ); // ensure a list of numbers
+
+					$post_order = implode( ',', $post_order );
+					$order = $query->get( 'order' );
+
+					$orderby = "FIELD({$wpdb->posts}.ID,{$post_order}) {$order}";
+				}
 			}
 		}
 
