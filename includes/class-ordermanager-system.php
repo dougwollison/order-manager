@@ -83,8 +83,8 @@ final class System extends Handler {
 		// Query Manipulation
 		self::add_hook( 'parse_query', 'maybe_set_post_menu_order', 10, 1 );
 		self::add_hook( 'parse_query', 'maybe_set_post_term_order', 10, 1 );
-		self::add_hook( 'parse_term_query', 'maybe_set_term_menu_order', 10, 1 );
-		self::add_hook( 'parse_term_query', 'handle_term_order', 20, 1 );
+		self::add_hook( 'get_terms_defaults', 'maybe_set_term_menu_order', 10, 1 );
+		self::add_hook( 'parse_term_query', 'handle_term_order', 10, 1 );
 		self::add_hook( 'posts_orderby', 'handle_term_post_order', 10, 2 );
 	}
 
@@ -162,28 +162,18 @@ final class System extends Handler {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param WP_Term_Query $query Current instance of WP_Term_Query.
+	 * @param array    $defaults   An array of default get_terms() arguments.
+	 * @param string[] $taxonomies An array of taxonomy names.
 	 */
-	public static function maybe_set_term_menu_order( $query ) {
-		// Skip if orderby is already not "name"
-		if ( $query->query_vars['orderby'] != 'name' ) {
-			return;
+	public static function maybe_set_term_menu_order( $defaults, $taxonomies ) {
+		// Only use menu_order if for a single, supported taxonomy
+		if ( count( $taxonomies ) == 1 && Registry::is_taxonomy_supported( $taxonomies[0], 'get_terms_override' ) ) {
+			// Set orderby to menu_order, asc
+			$defaults['orderby'] = 'menu_order';
+			$defaults['order'] = 'asc';
 		}
 
-		$taxonomy = $query->query_vars['taxonomy'];
-
-		// Skip if none or more than one is specified
-		if ( ! $taxonomy || count( $taxonomy ) > 1 ) {
-			return;
-		}
-
-		// Skip if post type does not support the override
-		if ( ! Registry::is_taxonomy_supported( $taxonomy[0], 'get_terms_override' ) ) {
-			return;
-		}
-
-		// Set orderby to menu_order, asc
-		$query->query_vars['orderby'] = 'menu_order';
+		return $defaults;
 	}
 
 	/**
