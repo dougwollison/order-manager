@@ -83,7 +83,7 @@ final class System extends Handler {
 		// Query Manipulation
 		self::add_hook( 'parse_query', 'maybe_set_post_menu_order', 10, 1 );
 		self::add_hook( 'parse_query', 'maybe_set_post_term_order', 10, 1 );
-		self::add_hook( 'get_terms_defaults', 'maybe_set_term_menu_order', 10, 1 );
+		self::add_hook( 'get_terms_defaults', 'maybe_set_term_menu_order', 10, 2 );
 		self::add_hook( 'parse_term_query', 'handle_term_order', 10, 1 );
 		self::add_hook( 'posts_orderby', 'handle_term_post_order', 10, 2 );
 	}
