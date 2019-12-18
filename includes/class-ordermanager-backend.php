@@ -353,11 +353,7 @@ final class Backend extends Handler {
 			exit;
 		}
 
-		// Fail if nonce does
 		check_admin_referer( "ordermanager_post_order:{$post_type}" );
-		if ( ! wp_verify_nonce( $_POST['_wpnonce'], "ordermanager_post_order:{$post_type}" ) ) {
-			cheatin();
-		}
 
 		$post_order = $_POST['order'];
 		$post_parent = $_POST['parents'] ?? array();
@@ -409,9 +405,6 @@ final class Backend extends Handler {
 		}
 
 		check_admin_referer( "ordermanager_term_order:{$taxonomy}" );
-		if ( ! wp_verify_nonce( $_POST['_wpnonce'], "ordermanager_term_order:{$taxonomy}" ) ) {
-			cheatin();
-		}
 
 		$term_order = $_POST['order'];
 		$term_parent = $_POST['parents'] ?? array();
@@ -448,6 +441,6 @@ final class Backend extends Handler {
 			return;
 		}
 
-		update_term_meta( $term_id, '_ordermanager_post_order', $_POST['order'] ?? '' );
+		update_term_meta( $term_id, '_post_order', $_POST['order'] ?? '' );
 	}
 }
