@@ -415,7 +415,7 @@ final class Backend extends Handler {
 				) );
 			}
 
-			update_term_meta( $term_id, 'menu_order', $order );
+			update_term_meta( $term_id, '_ordermanager_menu_order', $order );
 		}
 
 		// Add notice about order being updated

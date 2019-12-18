@@ -65,6 +65,7 @@ final class Uninstaller {
 	 */
 	public static function uninstall() {
 		delete_option( 'ordermanager_options' );
+		delete_metadata( 'term', 0, '_ordermanager_menu_order', null, 'delete all' );
 		delete_metadata( 'term', 0, '_ordermanager_post_order', null, 'delete all' );
 	}
 }

@@ -192,11 +192,11 @@ final class System extends Handler {
 
 			$vars['meta_query']['relation'] = 'OR';
 			$vars['meta_query'][] = array(
-				'key' => 'menu_order',
+				'key' => '_ordermanager_menu_order',
 				'compare' => 'EXISTS',
 			);
 			$vars['meta_query'][] = array(
-				'key' => 'menu_order',
+				'key' => '_ordermanager_menu_order',
 				'compare' => 'NOT EXISTS',
 			);
 
