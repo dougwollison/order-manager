@@ -354,8 +354,8 @@ final class Backend extends Handler {
 
 		check_admin_referer( "ordermanager_post_order:{$post_type}" );
 
-		$post_order = $_POST['order'];
-		$post_parent = $_POST['parents'] ?? array();
+		$post_order = array_map( 'absint', $_POST['order'] ?: array() );
+		$post_parent = array_map( 'absint', $_POST['parents'] ?? array() );
 		foreach ( $post_order as $order => $post_id ) {
 			$changes = array(
 				'ID'         => $post_id,
@@ -405,8 +405,8 @@ final class Backend extends Handler {
 
 		check_admin_referer( "ordermanager_term_order:{$taxonomy}" );
 
-		$term_order = $_POST['order'];
-		$term_parent = $_POST['parents'] ?? array();
+		$term_order = array_map( 'absint', $_POST['order'] ?: array() );
+		$term_parent = array_map( 'absint', $_POST['parents'] ?? array() );
 		foreach ( $term_order as $order => $term_id ) {
 			if ( $taxonomy_obj->hierarchical && isset( $term_parent[ $term_id ] ) ) {
 				wp_update_term( $term_id, $taxonomy, array(
@@ -440,6 +440,7 @@ final class Backend extends Handler {
 			return;
 		}
 
-		update_term_meta( $term_id, '_ordermanager_post_order', $_POST['order'] ?? '' );
+		$post_order = array_map( 'absint', $_POST['order'] ?? array() );
+		update_term_meta( $term_id, '_ordermanager_post_order', $post_order );
 	}
 }
