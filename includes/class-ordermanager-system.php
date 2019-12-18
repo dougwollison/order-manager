@@ -233,7 +233,7 @@ final class System extends Handler {
 				$term = get_term_by( $tax_query['field'], $terms[0], $taxonomy );
 
 				// Fetch the post order
-				$post_order = get_term_meta( $term->term_id, 'post_order', true );
+				$post_order = get_term_meta( $term->term_id, '_ordermanager_post_order', true );
 
 				// Only proceed if there is a post order
 				if ( $post_order ) {

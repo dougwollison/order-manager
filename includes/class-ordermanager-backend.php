@@ -290,7 +290,7 @@ final class Backend extends Handler {
 	 * @since 1.0.0
 	 */
 	public static function do_term_post_order_manager( $term ) {
-		$post_order = get_term_meta( $term->term_id, 'post_order', true ) ?: array();
+		$post_order = get_term_meta( $term->term_id, '_ordermanager_post_order', true ) ?: array();
 		$taxonomy_obj = get_taxonomy( $term->taxonomy );
 
 		$walker = new Post_Walker;
@@ -448,6 +448,6 @@ final class Backend extends Handler {
 			return;
 		}
 
-		update_term_meta( $term_id, 'post_order', $_POST['order'] ?? '' );
+		update_term_meta( $term_id, '_ordermanager_post_order', $_POST['order'] ?? '' );
 	}
 }
