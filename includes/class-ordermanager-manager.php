@@ -223,7 +223,7 @@ final class Manager extends Handler {
 		$data = $list[ $section ] ?? array();
 		?>
 		<fieldset>
-			<legend class="screen-reader-text"><?php echo $section['title']; ?></legend>
+			<legend class="screen-reader-text"><?php echo $settings['section']; ?></legend>
 			<?php foreach ( $settings['options'] as $field => $label ) :
 				$field_id = "ordermanager_{$name}_{$section}_{$field}";
 				$field_name = "ordermanager_options[{$name}][{$section}][{$field}]";
