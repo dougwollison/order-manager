@@ -59,12 +59,13 @@ final class Uninstaller {
 	/**
 	 * Perform the actual uninstallation.
 	 *
-	 * Delete all tables and all options created by OrderManager.
+	 * Delete all data added by OrderManager.
 	 *
 	 * @since 1.0.0
 	 */
 	public static function uninstall() {
 		delete_option( 'ordermanager_options' );
+		delete_metadata( 'term', 0, 'post_order', null, 'delete all' );
 	}
 }
 
