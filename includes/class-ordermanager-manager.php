@@ -255,7 +255,6 @@ final class Manager extends Handler {
 		?>
 		<div class="wrap">
 			<h2><?php echo get_admin_page_title(); ?></h2>
-			<?php settings_errors(); ?>
 			<form method="post" action="options.php" id="<?php echo $plugin_page;; ?>-form">
 				<?php settings_fields( $plugin_page ); ?>
 				<?php do_settings_sections( $plugin_page ); ?>
