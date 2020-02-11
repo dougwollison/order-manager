@@ -144,6 +144,10 @@ final class Backend extends Handler {
 				continue;
 			}
 
+			if ( ! post_type_exists( $post_type ) ) {
+				continue;
+			}
+
 			$post_type_obj = get_post_type_object( $post_type );
 
 			$parent_slug = 'edit.php';
@@ -162,6 +166,10 @@ final class Backend extends Handler {
 		}
 
 		foreach ( $taxonomies as $taxonomy => $options ) {
+			if ( ! taxonomy_exists( $taxonomy ) ) {
+				continue;
+			}
+
 			$taxonomy_obj = get_taxonomy( $taxonomy );
 
 			if ( $options['order_manager'] ) {
