@@ -167,7 +167,7 @@ final class System extends Handler {
 	 */
 	public static function maybe_set_term_menu_order( $defaults, $taxonomies ) {
 		// Only use menu_order if for a single, supported taxonomy
-		if ( count( $taxonomies ) == 1 && Registry::is_taxonomy_supported( $taxonomies[0], 'get_terms_override' ) ) {
+		if ( $taxonomies && count( $taxonomies ) == 1 && Registry::is_taxonomy_supported( $taxonomies[0], 'get_terms_override' ) ) {
 			// Set orderby to menu_order, asc
 			$defaults['orderby'] = 'menu_order';
 			$defaults['order'] = 'asc';
