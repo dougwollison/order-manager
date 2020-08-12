@@ -18,10 +18,13 @@ jQuery( function( $ ) {
 	var nestedSortableOptions = $.extend( {}, sortableOptions, {
 		update: function( event, ui ) {
 			var $parent = ui.item.parents( '.ordermanager-item' ).first();
+
+			let parent_id = 0;
 			if ( $parent.length > 0 ) {
-				const parent_id = $parent.find( '.ordermanager-item-id' ).val();
-				ui.item.find( '> .ordermanager-item-parent' ).val( parent_id );
+				parent_id = $parent.find( '.ordermanager-item-id' ).val();
 			}
+
+			ui.item.find( '> .ordermanager-item-parent' ).val( parent_id );
 		},
 	} );
 
