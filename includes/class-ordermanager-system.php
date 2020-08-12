@@ -131,6 +131,7 @@ final class System extends Handler {
 	/**
 	 * Set the orderby arg to term_order if applicable and not explicitly set.
 	 *
+	 * @since 1.1.0 Skip setting term_order if term has no set post order.
 	 * @since 1.0.0
 	 *
 	 * @param WP_Query $query Current instance of WP_Query.
@@ -149,6 +150,12 @@ final class System extends Handler {
 		// Skip if taxonomy is not supporter or multiple terms are requested
 		$tax_query = $query->tax_query->queries[0];
 		if ( ! Registry::is_taxonomy_supported( $tax_query['taxonomy'], 'get_posts_override' ) || count( $tax_query['terms'] ) != 1 ) {
+			return;
+		}
+
+		// Fetch the term, skip if no order is set
+		$term = get_term_by( $tax_query['field'], $tax_query['terms'][0], $tax_query['taxonomy'] );
+		if ( ! get_term_meta( $term->term_id, '_ordermanager_post_order', true ) ) {
 			return;
 		}
 
