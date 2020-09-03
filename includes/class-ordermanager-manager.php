@@ -163,7 +163,7 @@ final class Manager extends Handler {
 			// Add the settings field
 			add_settings_field(
 				"ordermanager_post_types_{$post_type->name}", // id
-				$post_type->labels->name, // title
+				sprintf( '%s <code>%s</code>', $post_type->labels->name, $post_type->name ), // title
 				array( __CLASS__, 'print_options_field' ), // callback
 				'ordermanager-options', // page
 				'post_types', // section
@@ -191,7 +191,7 @@ final class Manager extends Handler {
 			// Add the settings field
 			add_settings_field(
 				"ordermanager_taxonomies_{$taxonomy->name}", // id
-				$taxonomy->labels->name, // title
+				sprintf( '%s <code>%s</code>', $taxonomy->labels->name, $taxonomy->name ), // title
 				array( __CLASS__, 'print_options_field' ), // callback
 				'ordermanager-options', // page
 				'taxonomies', // section
