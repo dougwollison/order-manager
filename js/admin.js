@@ -1,7 +1,7 @@
 /* globals jQuery */
 jQuery( function( $ ) {
 	// Create the sortable options
-	var sortableOptions = {
+	const sortableOptions = {
 		cursor           : 'move',
 		handle           : '.ordermanager-item-label',
 		helper           : 'clone',
@@ -15,9 +15,9 @@ jQuery( function( $ ) {
 
 	// Create the nestedSortable options
 	// a copy of the sortable options + an update event for the parent value
-	var nestedSortableOptions = $.extend( {}, sortableOptions, {
-		update: function( event, ui ) {
-			var $parent = ui.item.parents( '.ordermanager-item' ).first();
+	const nestedSortableOptions = $.extend( {}, sortableOptions, {
+		update( event, ui ) {
+			const $parent = ui.item.parents( '.ordermanager-item' ).first();
 
 			let parent_id = 0;
 			if ( $parent.length > 0 ) {
