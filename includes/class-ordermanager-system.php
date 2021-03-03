@@ -86,6 +86,9 @@ final class System extends Handler {
 		self::add_hook( 'get_terms_defaults', 'maybe_set_term_menu_order', 10, 2 );
 		self::add_hook( 'parse_term_query', 'handle_term_order', 10, 1 );
 		self::add_hook( 'posts_orderby', 'handle_term_post_order', 10, 2 );
+
+		// REST API Mods
+		self::add_hook( 'rest_api_init', 'add_rest_api_hooks', 10, 0 );
 	}
 
 	// =========================
@@ -253,5 +256,83 @@ final class System extends Handler {
 		}
 
 		return $orderby;
+	}
+
+	// =========================
+	// ! REST API Mods
+	// =========================
+
+	/**
+	 * Fires when the REST API is initialized.
+	 *
+	 * Adds the necessary dynamic hooks to REST API filters.
+	 *
+	 * @since 1.1.0
+	 */
+	public static function add_rest_api_hooks() {
+		$post_types = Registry::get( 'post_types' );
+		foreach ( $post_types as $post_type => $options ) {
+			if ( ! empty( $options['order_manager'] ) ) {
+				self::add_hook( "rest_{$post_type}_collection_params", 'rest_posts_collection_params', 10, 2 );
+			}
+		}
+
+		$taxonomies = Registry::get( 'taxonomies' );
+		foreach ( $taxonomies as $taxonomy => $options ) {
+			if ( ! empty( $options['order_manager'] ) ) {
+				self::add_hook( "rest_{$taxonomy}_collection_params", 'rest_terms_collection_params', 10, 2 );
+			}
+		}
+	}
+
+	/**
+	 * Filters collection parameters for the posts controller.
+	 *
+	 * Adds menu_order as a valid orderby type, changes default if applicable.
+	 *
+	 * @since 1.1.0
+	 *
+	 * @param array        $query_params JSON Schema-formatted collection parameters.
+	 * @param WP_Post_Type $post_type    Post type object.
+	 */
+	public static function rest_posts_collection_params( $query_params, $post_type ) {
+		if ( ! in_array( 'menu_order', $query_params['orderby']['enum'] ) ) {
+			$query_params['orderby']['enum'][] = 'menu_order';
+		}
+
+		if ( Registry::is_post_type_supported( $post_type->name, 'get_posts_override' ) ) {
+			$query_params['orderby']['default'] = 'menu_order';
+			$query_params['order']['default'] = 'asc';
+		}
+
+		$taxonomies = get_object_taxonomies( $post_type->name );
+		foreach ( $taxonomies as $taxonomy ) {
+			if ( Registry::is_taxonomy_supported( $taxonomy, 'get_posts_override' ) ) {
+				$query_params['orderby']['enum'][] = 'term_order';
+			}
+		}
+
+		return $query_params;
+	}
+
+	/**
+	 * Filters collection parameters for the terms controller.
+	 *
+	 * Adds menu_order as a valid orderby type, changes default if applicable.
+	 *
+	 * @since 1.1.0
+	 *
+	 * @param array       $query_params JSON Schema-formatted collection parameters.
+	 * @param WP_Taxonomy $taxonomy     Taxonomy object.
+	 */
+	public static function rest_terms_collection_params( $query_params, $taxonomy ) {
+		$query_params['orderby']['enum'][] = 'menu_order';
+
+		if ( Registry::is_taxonomy_supported( $taxonomy->name, 'get_terms_override' ) ) {
+			$query_params['orderby']['default'] = 'menu_order';
+			$query_params['order']['default'] = 'asc';
+		}
+
+		return $query_params;
 	}
 }
