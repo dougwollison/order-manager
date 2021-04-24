@@ -198,16 +198,20 @@ final class System extends Handler {
 
 		if ( isset( $vars['orderby'] ) && $vars['orderby'] == 'menu_order' ) {
 			$vars['orderby'] = 'meta_value_num';
-			$vars['meta_query'] = $vars['meta_query'] ?: array();
+			$meta_query = $vars['meta_query'] ?: array();
 
-			$vars['meta_query']['relation'] = 'OR';
-			$vars['meta_query'][] = array(
-				'key' => '_ordermanager_menu_order',
-				'compare' => 'EXISTS',
-			);
-			$vars['meta_query'][] = array(
-				'key' => '_ordermanager_menu_order',
-				'compare' => 'NOT EXISTS',
+			// Next existing query inside new query
+			$vars['meta_query'] = array(
+				'relation' => 'OR',
+				array(
+					'key' => '_ordermanager_menu_order',
+					'compare' => 'EXISTS',
+				),
+				array(
+					'key' => '_ordermanager_menu_order',
+					'compare' => 'NOT EXISTS',
+				),
+				$meta_query,
 			);
 
 			if ( ! isset( $vars['order'] ) ) {
