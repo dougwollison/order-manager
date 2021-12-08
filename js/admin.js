@@ -39,4 +39,31 @@ jQuery( function( $ ) {
 	$( '.ordermanager-interface.is-nested' )
 		.children( '.ordermanager-items' )
 		.nestedSortable( nestedSortableOptions );
+
+	// Handle quick sorting of items by a specified field
+	$( '.ordermanager-quicksort' ).click( function() {
+		const [ field, order ] = $( this ).data( 'sort' ).split( ':' );
+
+		const $list = $( '.ordermanager-interface > ol' );
+		const $items = $list.children();
+
+		$items.sort( function( a, b ) {
+			const aValue = $( a ).data( `sort-${ field }` );
+			const bValue = $( b ).data( `sort-${ field }` );
+
+			if ( aValue === bValue ) {
+				return 0;
+			}
+
+			if ( order === 'desc' ) {
+				return aValue > bValue ? 1 : -1;
+			}
+
+			return aValue < bValue ? 1 : -1;
+		} );
+
+		$items.detach().appendTo( $list );
+
+		$list.sortable( 'refresh' );
+	} );
 } );

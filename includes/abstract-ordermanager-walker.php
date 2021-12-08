@@ -83,10 +83,8 @@ abstract class Walker extends \Walker {
 	public function start_el( &$output, $object, $depth = 0, $args = array(), $current_page = 0 ) {
 		if ( isset( $args['item_spacing'] ) && 'preserve' === $args['item_spacing'] ) {
 			$t = "\t";
-			$n = "\n";
 		} else {
 			$t = '';
-			$n = '';
 		}
 		if ( $depth ) {
 			$indent = str_repeat( $t, $depth );
@@ -95,14 +93,15 @@ abstract class Walker extends \Walker {
 		}
 
 		$output .= $indent . sprintf(
-			'<li class="ordermanager-item">
+			'<li class="ordermanager-item" data-sort-title="%3$s">
 				<input type="hidden" name="order[]" value="%1$d" class="ordermanager-item-id" />
-				<input type="hidden" name="parents[%1$d]" value="%3$d" class="ordermanager-item-parent" />
+				<input type="hidden" name="parents[%1$d]" value="%4$d" class="ordermanager-item-parent" />
 				<div class="ordermanager-item-label">
 					%2$s
 				</div>',
 			$object->{$this->db_fields['id']},
 			$object->{$this->db_fields['name']},
+			esc_attr( $object->{$this->db_fields['name']} ),
 			$object->{$this->db_fields['parent']}
 		);
 	}

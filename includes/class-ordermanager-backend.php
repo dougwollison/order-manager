@@ -237,6 +237,11 @@ final class Backend extends Handler {
 					<ol class="ordermanager-items">
 						<?php echo $walker->walk( $posts, $post_type_obj->hierarchical ? 0 : -1 ); ?>
 					</ol>
+					<p>
+						Quick Sort:
+						<button type="button" class="button-secondary ordermanager-quicksort" data-sort="title:desc">Title, A-Z</button>
+						<button type="button" class="button-secondary ordermanager-quicksort" data-sort="title:asc">Title, Z-A</button>
+					</p>
 				</div>
 
 				<button type="submit" class="button-primary">Save Order</button>
@@ -284,6 +289,11 @@ final class Backend extends Handler {
 					<ol class="ordermanager-items">
 						<?php echo $walker->walk( $terms, $taxonomy_obj->hierarchical ? 0 : -1 ); ?>
 					</ol>
+					<p>
+						Quick Sort:
+						<button type="button" class="button-secondary ordermanager-quicksort" data-sort="title:desc">Title, A-Z</button>
+						<button type="button" class="button-secondary ordermanager-quicksort" data-sort="title:asc">Title, Z-A</button>
+					</p>
 				</div>
 
 				<button type="submit" class="button-primary">Save Order</button>
@@ -326,6 +336,11 @@ final class Backend extends Handler {
 					<ol class="ordermanager-items">
 						<?php echo $walker->walk( $posts, -1 ); ?>
 					</ol>
+					<p>
+						Quick Sort:
+						<button type="button" class="button-secondary ordermanager-quicksort" data-sort="title:desc">Title, A-Z</button>
+						<button type="button" class="button-secondary ordermanager-quicksort" data-sort="title:asc">Title, Z-A</button>
+					</p>
 				</div>
 			</td>
 		</tr>
