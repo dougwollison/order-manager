@@ -104,7 +104,7 @@ final class System extends Handler {
 	 */
 	public static function maybe_set_post_menu_order( $query ) {
 		// Skip if orderby is already specified
-		if ( isset( $query->query['orderby'] ) ) {
+		if ( ! empty( $query->query['orderby'] ) ) {
 			return;
 		}
 
@@ -128,7 +128,7 @@ final class System extends Handler {
 
 		// Set orderby to menu_order, asc if not explicitly set
 		$query->set( 'orderby', 'menu_order' );
-		$query->set( 'order', $query->query['order'] ?? 'asc' );
+		$query->set( 'order', ! empty( $query->query['order'] ) ? $query->query['order'] : 'asc' );
 	}
 
 	/**
