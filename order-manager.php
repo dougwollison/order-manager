@@ -3,7 +3,7 @@
 Plugin Name: Order Manager
 Plugin URI: https://github.com/dougwollison/order-manager
 Description: Adds order controls for posts and terms
-Version: 1.0.0
+Version: 1.1.0
 Author: Doug Wollison
 Author URI: http://dougw.me
 Tags: order, sort, post order, term order
@@ -50,7 +50,7 @@ define( 'ORDERMANAGER_PLUGIN_SLUG', basename( ORDERMANAGER_PLUGIN_DIR ) . '/' . 
  *
  * @var string
  */
-define( 'ORDERMANAGER_PLUGIN_VERSION', '1.0.0' );
+define( 'ORDERMANAGER_PLUGIN_VERSION', '1.1.0' );
 
 /**
  * Identifies the current database version.
@@ -59,7 +59,7 @@ define( 'ORDERMANAGER_PLUGIN_VERSION', '1.0.0' );
  *
  * @var string
  */
-define( 'ORDERMANAGER_DB_VERSION', '1.0.0' );
+define( 'ORDERMANAGER_DB_VERSION', '1.1.0' );
 
 // =========================
 // ! Includes
