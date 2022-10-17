@@ -257,6 +257,10 @@ final class System extends Handler {
 			$a_order = get_term_meta( $a->term_id, '_ordermanager_menu_order', true ) ?: 0;
 			$b_order = get_term_meta( $a->term_id, '_ordermanager_menu_order', true ) ?: 0;
 
+			if ( $a_order === $b_order ) {
+				return 0;
+			}
+
 			return $a_order < $b_order ? -1 : 1;
 		} );
 
