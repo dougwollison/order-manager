@@ -85,6 +85,7 @@ final class System extends Handler {
 		self::add_hook( 'parse_query', 'maybe_set_post_term_order', 10, 1 );
 		self::add_hook( 'get_terms_defaults', 'maybe_set_term_menu_order', 10, 2 );
 		self::add_hook( 'parse_term_query', 'handle_term_order', 10, 1 );
+		self::add_hook( 'get_the_terms', 'sort_term_results', 10, 3 );
 		self::add_hook( 'posts_orderby', 'handle_term_post_order', 10, 2 );
 
 		// REST API Mods
@@ -228,6 +229,38 @@ final class System extends Handler {
 				$vars['orderby'] = 'asc';
 			}
 		}
+	}
+
+	/**
+	 * Sort term results by their menu order.
+	 *
+	 * @since 1.1.0
+	 *
+	 * @param WP_Term[] $terms    The terms to sort.
+	 * @param int       $post_id  The post the terms are for.
+	 * @param string    $taxonomy The taxonomy of the terms.
+	 *
+	 * @return WP_Term[] The sorted terms.
+	 */
+	public static function sort_term_results( $terms, $post_id, $taxonomy ) {
+		// Error, skip
+		if ( is_wp_error( $terms ) ) {
+			return $terms;
+		}
+
+		// Skip if taxonomy is not supported
+		if ( ! Registry::is_taxonomy_supported( $taxonomy, 'get_terms_override' ) ) {
+			return $terms;
+		}
+
+		usort( $terms, function( $a, $b ) {
+			$a_order = get_term_meta( $a->term_id, '_ordermanager_menu_order', true ) ?: 0;
+			$b_order = get_term_meta( $a->term_id, '_ordermanager_menu_order', true ) ?: 0;
+
+			return $a_order < $b_order ? -1 : 1;
+		} );
+
+		return $terms;
 	}
 
 	/**
