@@ -254,6 +254,94 @@ final class Registry {
 	}
 
 	// =========================
+	// ! Manual Registration
+	// =========================
+
+	/**
+	 * Register a post type for order management.
+	 *
+	 * @since 1.1.0
+	 *
+	 * @param string $post_type The post type to register.
+	 * @param array  $supports {
+	 *        The supports to register it for.
+	 *        @type boolean $order_manager Show UI for sorting posts
+	 *        @type boolean $get_posts_override Override get_posts order
+	 * }
+	 */
+	public static function register_post_type( $post_type, array $supports ) {
+		$supports = wp_parse_args( $supports, array(
+			'order_manager' => false,
+			'get_terms_override' => false,
+		) );
+
+		$post_types = self::get( 'post_types' );
+
+		$post_types[ $post_type ] = $supports;
+
+		self::set( 'post_types', $post_types );
+	}
+
+	/**
+	 * Register a taxonomy for order management.
+	 *
+	 * @since 1.1.0
+	 *
+	 * @param string $post_type The taxonomy to register.
+	 * @param array  $supports {
+	 *        The supports to register it for.
+	 *        @type boolean $order_manager Show UI for sorting terms
+	 *        @type boolean $get_terms_override Override get_terms order
+	 *        @type boolean $post_order_manager Show UI for sorting posts per term
+	 *        @type boolean $get_posts_override Override get_posts order
+	 * }
+	 */
+	public static function register_taxonomy( $taxonomy, array $supports ) {
+		$supports = wp_parse_args( $supports, array(
+			'order_manager' => false,
+			'get_terms_override' => false,
+			'post_order_manager' => false,
+			'get_posts_override' => false,
+		) );
+
+		$taxonomies = self::get( 'taxonomies' );
+
+		$taxonomies[ $taxonomy ] = $supports;
+
+		self::set( 'taxonomies', $taxonomies );
+	}
+
+	/**
+	 * Unregister a post type from order management.
+	 *
+	 * @since 1.1.0
+	 *
+	 * @param string $post_type The post type to register.
+	 */
+	public static function unregister_post_type( $post_type ) {
+		$post_types = self::get( 'post_types' );
+
+		unset( $taxonomies[ $post_type ] );
+
+		self::set( 'post_types', $post_types );
+	}
+
+	/**
+	 * Unregister a taxonomy from order management.
+	 *
+	 * @since 1.1.0
+	 *
+	 * @param string $post_type The taxonomy to register.
+	 */
+	public static function unregister_taxonomy( $taxonomy ) {
+		$taxonomies = self::get( 'taxonomies' );
+
+		unset( $taxonomies[ $taxonomy ] );
+
+		self::set( 'taxonomies', $taxonomies );
+	}
+
+	// =========================
 	// ! Setup Method
 	// =========================
 
