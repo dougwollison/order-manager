@@ -323,14 +323,14 @@ final class System extends Handler {
 	public static function add_rest_api_hooks() {
 		$post_types = Registry::get( 'post_types' );
 		foreach ( $post_types as $post_type => $options ) {
-			if ( ! empty( $options['order_manager'] ) ) {
+			if ( ! empty( $options['order_manager'] ) || ! empty( $options['get_posts_override'] ) ) {
 				self::add_hook( "rest_{$post_type}_collection_params", 'rest_posts_collection_params', 10, 2 );
 			}
 		}
 
 		$taxonomies = Registry::get( 'taxonomies' );
 		foreach ( $taxonomies as $taxonomy => $options ) {
-			if ( ! empty( $options['order_manager'] ) ) {
+			if ( ! empty( $options['order_manager'] ) || ! empty( $options['get_terms_override'] ) ) {
 				self::add_hook( "rest_{$taxonomy}_collection_params", 'rest_terms_collection_params', 10, 2 );
 			}
 		}
