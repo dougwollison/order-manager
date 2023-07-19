@@ -224,7 +224,7 @@ final class Registry {
 	 * @return bool Wether or not the post type is supported.
 	 */
 	public static function is_post_type_supported( $post_type, $support = 'order_manager' ) {
-		$post_types = Registry::get( 'post_types' );
+		$post_types = self::get( 'post_types' );
 
 		if ( ! isset( $post_types[ $post_type ] ) ) {
 			return false;
@@ -244,7 +244,7 @@ final class Registry {
 	 * @return bool Wether or not the post type is supported.
 	 */
 	public static function is_taxonomy_supported( $taxonomy, $support = 'order_manager' ) {
-		$taxonomies = Registry::get( 'taxonomies' );
+		$taxonomies = self::get( 'taxonomies' );
 
 		if ( ! isset( $taxonomies[ $taxonomy ] ) ) {
 			return false;
