@@ -113,7 +113,7 @@ final class Backend extends Handler {
 		$screen = get_current_screen();
 
 		// Enqueue if on an post/term order page
-		$proceed = strpos( $plugin_page, '-ordermanager' ) > 0;
+		$proceed = $plugin_page && strpos( $plugin_page, '-ordermanager' ) > 0;
 
 		// If an edit term page, enqueue if the taxonomy has post order enabled
 		if ( $screen->base == 'term' ) {
