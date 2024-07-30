@@ -147,7 +147,7 @@ final class System extends Handler {
 		}
 
 		// Skip if none or multipe tax queries specified
-		if ( ! $query->tax_query || count( $query->tax_query->queries ) != 1 ) {
+		if ( ! $query->tax_query || count( $query->tax_query->queries ) != 1 || empty( $query->tax_query->queries[0] ) ) {
 			return;
 		}
 
