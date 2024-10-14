@@ -55,5 +55,5 @@ function is_backend() {
  * @since 1.0.0
  */
 function cheatin() {
-	wp_die( __( 'Cheatin&#8217; uh?' ), 403 );
+	wp_die( 'Cheatin&#8217; uh?', 403 );
 }
