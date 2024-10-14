@@ -34,7 +34,7 @@ final class Uninstaller {
 
 		// Also abort if (somehow) it's some other plugin being uninstalled
 		if ( WP_UNINSTALL_PLUGIN != basename( __DIR__ ) . '/order-manager.php' ) {
-			die( sprintf( 'Illegal attempt to uninstall [Plugin Name] while uninstalling %s.', WP_UNINSTALL_PLUGIN ) );
+			die( sprintf( 'Illegal attempt to uninstall [Plugin Name] while uninstalling %s.', esc_html( WP_UNINSTALL_PLUGIN ) ) );
 		}
 
 		// Check if this site is a Multisite installation

@@ -157,7 +157,9 @@ final class Backend extends Handler {
 
 			add_submenu_page(
 				$parent_slug, // parent slug
+				// translators: %s = post type, singular name
 				sprintf( __( 'Manage %s Order', 'order-manager' ), $post_type_obj->labels->singular_name ), // page title
+				// translators: %s = post type, singular name
 				sprintf( __( '%s Order', 'order-manager' ), $post_type_obj->labels->singular_name ), // menu title
 				$post_type_obj->cap->edit_posts, // capability
 				"{$post_type}-ordermanager", // menu slug
@@ -181,7 +183,9 @@ final class Backend extends Handler {
 
 					add_submenu_page(
 						$parent_slug, // parent slug
+						// translators: %s = taxonomy, singular name
 						sprintf( __( 'Manage %s Order', 'order-manager' ), $taxonomy_obj->labels->singular_name ), // page title
+						// translators: %s = taxonomy, singular name
 						sprintf( __( '%s Order', 'order-manager' ), $taxonomy_obj->labels->singular_name ), // menu title
 						$taxonomy_obj->cap->manage_terms, // capability
 						"{$taxonomy}-ordermanager", // menu slug
@@ -219,17 +223,20 @@ final class Backend extends Handler {
 		) );
 		?>
 		<div class="wrap">
-			<h2><?php echo get_admin_page_title(); ?></h2>
+			<h2><?php echo esc_html( get_admin_page_title() ); ?></h2>
 			<?php settings_errors(); ?>
 			<form method="post" action="admin-post.php">
 				<input type="hidden" name="action" value="ordermanager_post_order" />
-				<input type="hidden" name="post_type" value="<?php echo $post_type; ?>" />
+				<input type="hidden" name="post_type" value="<?php echo esc_attr( $post_type ); ?>" />
 				<?php wp_nonce_field( "ordermanager_post_order:{$post_type}", '_wpnonce' )?>
 
 				<p class="description">
-					Drag to reorder <?php echo $post_type_obj->labels->name; ?>.
+					<?php
+					// translators: %s = post type name
+					esc_html( sprintf( __( 'Drag to reorder %s', 'order-manager' ), $post_type_obj->labels->name ) );
+					?>
 					<?php if ( $post_type_obj->hierarchical ) : ?>
-						You can also drag child items to assign them to new parents.
+						<?php esc_html_e( 'You can also drag child items to assign them to new parents.', 'order-manager' ); ?>
 					<?php endif; ?>
 				</p>
 
@@ -238,9 +245,9 @@ final class Backend extends Handler {
 						<?php echo $walker->walk( $posts, $post_type_obj->hierarchical ? 0 : -1 ); ?>
 					</ol>
 					<p>
-						Quick Sort:
-						<button type="button" class="button-secondary ordermanager-quicksort" data-sort="title:desc">Title, A-Z</button>
-						<button type="button" class="button-secondary ordermanager-quicksort" data-sort="title:asc">Title, Z-A</button>
+						<?php esc_html_e( 'Quick Sort:', 'order-manager' ); ?>
+						<button type="button" class="button-secondary ordermanager-quicksort" data-sort="title:desc"><?php esc_html_e( 'Title, A-Z', 'order-manager' ); ?></button>
+						<button type="button" class="button-secondary ordermanager-quicksort" data-sort="title:asc"><?php esc_html_e( 'Title, Z-A', 'order-manager' ); ?></button>
 					</p>
 				</div>
 
@@ -270,18 +277,21 @@ final class Backend extends Handler {
 		) );
 		?>
 		<div class="wrap">
-			<h2><?php echo get_admin_page_title(); ?></h2>
+			<h2><?php echo esc_html( get_admin_page_title() ); ?></h2>
 			<?php settings_errors(); ?>
 			<form method="post" action="admin-post.php">
 				<input type="hidden" name="action" value="ordermanager_term_order" />
-				<input type="hidden" name="post_type" value="<?php echo get_current_screen()->post_type; ?>" />
-				<input type="hidden" name="taxonomy" value="<?php echo $taxonomy; ?>" />
+				<input type="hidden" name="post_type" value="<?php echo esc_attr( get_current_screen()->post_type ); ?>" />
+				<input type="hidden" name="taxonomy" value="<?php echo esc_attr( $taxonomy ); ?>" />
 				<?php wp_nonce_field( "ordermanager_term_order:{$taxonomy}", '_wpnonce' )?>
 
 				<p class="description">
-					Drag to reorder <?php echo $taxonomy_obj->labels->name; ?>.
+					<?php
+					// translators: %s = taxonomy name
+					esc_html( sprintf( __( 'Drag to reorder %s', 'order-manager' ), $taxonomy_obj->labels->name ) );
+					?>
 					<?php if ( $taxonomy_obj->hierarchical ) : ?>
-						You can also drag child items to assign them to new parents.
+						<?php esc_html_e( 'You can also drag child items to assign them to new parents.', 'order-manager' ); ?>
 					<?php endif; ?>
 				</p>
 
@@ -290,9 +300,9 @@ final class Backend extends Handler {
 						<?php echo $walker->walk( $terms, $taxonomy_obj->hierarchical ? 0 : -1 ); ?>
 					</ol>
 					<p>
-						Quick Sort:
-						<button type="button" class="button-secondary ordermanager-quicksort" data-sort="title:desc">Title, A-Z</button>
-						<button type="button" class="button-secondary ordermanager-quicksort" data-sort="title:asc">Title, Z-A</button>
+						<?php esc_html_e( 'Quick Sort:', 'order-manager' ); ?>
+						<button type="button" class="button-secondary ordermanager-quicksort" data-sort="title:desc"><?php esc_html_e( 'Title, A-Z', 'order-manager' ); ?></button>
+						<button type="button" class="button-secondary ordermanager-quicksort" data-sort="title:asc"><?php esc_html_e( 'Title, Z-A', 'order-manager' ); ?></button>
 					</p>
 				</div>
 
@@ -328,18 +338,18 @@ final class Backend extends Handler {
 		) );
 		?>
 		<tr class="form-field term-order-wrap">
-			<th scope="row"><?php _e( 'Post Order', 'order-manager' ); ?></th>
+			<th scope="row"><?php esc_html_e( 'Post Order', 'order-manager' ); ?></th>
 			<td>
-				<p class="description">Drag to reorder entries.</p>
+				<p class="description"><?php esc_html_e( 'Drag to reorder entries.', 'order-manager' ); ?></p>
 
 				<div class="ordermanager-interface">
 					<ol class="ordermanager-items">
 						<?php echo $walker->walk( $posts, -1 ); ?>
 					</ol>
 					<p>
-						Quick Sort:
-						<button type="button" class="button-secondary ordermanager-quicksort" data-sort="title:desc">Title, A-Z</button>
-						<button type="button" class="button-secondary ordermanager-quicksort" data-sort="title:asc">Title, Z-A</button>
+						<?php esc_html_e( 'Quick Sort:', 'order-manager' ); ?>
+						<button type="button" class="button-secondary ordermanager-quicksort" data-sort="title:desc"><?php esc_html_e( 'Title, A-Z', 'order-manager' ); ?></button>
+						<button type="button" class="button-secondary ordermanager-quicksort" data-sort="title:asc"><?php esc_html_e( 'Title, Z-A', 'order-manager' ); ?></button>
 					</p>
 				</div>
 			</td>
@@ -358,7 +368,7 @@ final class Backend extends Handler {
 	 */
 	public static function save_post_order() {
 		if ( ! isset( $_POST['post_type'] ) || empty( $_POST['post_type'] ) ) {
-			wp_die( __( 'Post type not specified.', 'order-manager' ) );
+			wp_die( esc_html__( 'Post type not specified.', 'order-manager' ) );
 			exit;
 		}
 
@@ -370,12 +380,12 @@ final class Backend extends Handler {
 		$post_type_obj = get_post_type_object( $post_type );
 
 		if ( ! $post_type_obj ) {
-			wp_die( __( 'Invalid post type.', 'order-manager' ) );
+			wp_die( esc_html__( 'Invalid post type.', 'order-manager' ) );
 			exit;
 		}
 
 		if ( ! isset( $_POST['order'] ) || empty( $_POST['order'] ) ) {
-			wp_die( __( 'No post order provided.', 'order-manager' ) );
+			wp_die( esc_html__( 'No post order provided.', 'order-manager' ) );
 			exit;
 		}
 
@@ -411,7 +421,7 @@ final class Backend extends Handler {
 	 */
 	public static function save_term_order() {
 		if ( ! isset( $_POST['taxonomy'] ) || empty( $_POST['taxonomy'] ) ) {
-			wp_die( __( 'Taxonomy not specified.', 'order-manager' ) );
+			wp_die( esc_html__( 'Taxonomy not specified.', 'order-manager' ) );
 			exit;
 		}
 
@@ -423,12 +433,12 @@ final class Backend extends Handler {
 		$taxonomy_obj = get_taxonomy( $taxonomy );
 
 		if ( ! $taxonomy_obj ) {
-			wp_die( __( 'Invalid taxonomy.', 'order-manager' ) );
+			wp_die( esc_html__( 'Invalid taxonomy.', 'order-manager' ) );
 			exit;
 		}
 
 		if ( ! isset( $_POST['order'] ) || empty( $_POST['order'] ) ) {
-			wp_die( __( 'No term order provided.', 'order-manager' ) );
+			wp_die( esc_html__( 'No term order provided.', 'order-manager' ) );
 			exit;
 		}
 
