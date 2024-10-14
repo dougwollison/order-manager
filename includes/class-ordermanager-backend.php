@@ -94,8 +94,8 @@ final class Backend extends Handler {
 		wp_register_style( 'ordermanager-admin', plugins_url( 'css/admin.css', ORDERMANAGER_PLUGIN_FILE ), ORDERMANAGER_PLUGIN_VERSION, 'screen' );
 
 		// Admin javascript
-		wp_register_script( 'jquery-mjs-nestedsortable', plugins_url( 'js/jquery.mjs.nestedSortable.js', ORDERMANAGER_PLUGIN_FILE ), array( 'jquery-ui-sortable' ), ORDERMANAGER_PLUGIN_VERSION );
-		wp_register_script( 'ordermanager-admin-js', plugins_url( 'js/admin.js', ORDERMANAGER_PLUGIN_FILE ), array( 'jquery-mjs-nestedsortable' ), ORDERMANAGER_PLUGIN_VERSION );
+		wp_register_script( 'jquery-mjs-nestedsortable', plugins_url( 'js/jquery.mjs.nestedSortable.js', ORDERMANAGER_PLUGIN_FILE ), array( 'jquery-ui-sortable' ), ORDERMANAGER_PLUGIN_VERSION, false );
+		wp_register_script( 'ordermanager-admin-js', plugins_url( 'js/admin.js', ORDERMANAGER_PLUGIN_FILE ), array( 'jquery-mjs-nestedsortable' ), ORDERMANAGER_PLUGIN_VERSION, false );
 
 		// Localize the javascript
 		wp_localize_script( 'ordermanager-admin-js', 'ordermanagerL10n', array(
