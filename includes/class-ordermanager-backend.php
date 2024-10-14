@@ -373,7 +373,7 @@ final class Backend extends Handler {
 		}
 
 		$post_type = $_POST['post_type'];
-		if ( ! wp_verify_nonce( "ordermanager_post_order:{$post_type}" ) ) {
+		if ( empty( $_POST['_wpnonce'] ) || ! wp_verify_nonce( $_POST['_wpnonce'], "ordermanager_post_order:{$post_type}" ) ) {
 			cheatin();
 		}
 
@@ -426,7 +426,7 @@ final class Backend extends Handler {
 		}
 
 		$taxonomy = $_POST['taxonomy'];
-		if ( ! wp_verify_nonce( "ordermanager_term_order:{$taxonomy}" ) ) {
+		if ( empty( $_POST['_wpnonce'] ) || ! wp_verify_nonce( $_POST['_wpnonce'], "ordermanager_term_order:{$taxonomy}" ) ) {
 			cheatin();
 		}
 
