@@ -30,7 +30,7 @@ final class Exception extends \Exception {
 	 * @param int        $code     Optional The error code.
 	 * @param \Exception $previous Optional The previous exception in the chain.
 	 */
-	public function __construct( $message, $code = 0, Exception $previous = null ) {
+	public function __construct( $message, $code = 0, ?Exception $previous = null ) {
 	    parent::__construct( $message, $code, $previous );
 	}
 
