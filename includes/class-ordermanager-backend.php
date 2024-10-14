@@ -363,6 +363,10 @@ final class Backend extends Handler {
 		}
 
 		$post_type = $_POST['post_type'];
+		if ( ! wp_verify_nonce( "ordermanager_post_order:{$post_type}" ) ) {
+			cheatin();
+		}
+
 		$post_type_obj = get_post_type_object( $post_type );
 
 		if ( ! $post_type_obj ) {
@@ -374,8 +378,6 @@ final class Backend extends Handler {
 			wp_die( __( 'No post order provided.', 'order-manager' ) );
 			exit;
 		}
-
-		check_admin_referer( "ordermanager_post_order:{$post_type}" );
 
 		$post_order = array_map( 'absint', $_POST['order'] ?: array() );
 		$post_parent = array_map( 'absint', $_POST['parents'] ?? array() );
@@ -414,6 +416,10 @@ final class Backend extends Handler {
 		}
 
 		$taxonomy = $_POST['taxonomy'];
+		if ( ! wp_verify_nonce( "ordermanager_term_order:{$taxonomy}" ) ) {
+			cheatin();
+		}
+
 		$taxonomy_obj = get_taxonomy( $taxonomy );
 
 		if ( ! $taxonomy_obj ) {
@@ -425,8 +431,6 @@ final class Backend extends Handler {
 			wp_die( __( 'No term order provided.', 'order-manager' ) );
 			exit;
 		}
-
-		check_admin_referer( "ordermanager_term_order:{$taxonomy}" );
 
 		$term_order = array_map( 'absint', $_POST['order'] ?: array() );
 		$term_parent = array_map( 'absint', $_POST['parents'] ?? array() );
