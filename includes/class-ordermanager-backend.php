@@ -77,7 +77,7 @@ final class Backend extends Handler {
 	 */
 	public static function load_textdomain() {
 		// Load the textdomain
-		load_plugin_textdomain( 'ordermanager', false, dirname( ORDERMANAGER_PLUGIN_FILE ) . '/languages' );
+		load_plugin_textdomain( 'order-manager', false, dirname( ORDERMANAGER_PLUGIN_FILE ) . '/languages' );
 	}
 
 	// =========================
@@ -157,8 +157,8 @@ final class Backend extends Handler {
 
 			add_submenu_page(
 				$parent_slug, // parent slug
-				sprintf( __( 'Manage %s Order', 'ordermanager' ), $post_type_obj->labels->singular_name ), // page title
-				sprintf( __( '%s Order', 'ordermanager' ), $post_type_obj->labels->singular_name ), // menu title
+				sprintf( __( 'Manage %s Order', 'order-manager' ), $post_type_obj->labels->singular_name ), // page title
+				sprintf( __( '%s Order', 'order-manager' ), $post_type_obj->labels->singular_name ), // menu title
 				$post_type_obj->cap->edit_posts, // capability
 				"{$post_type}-ordermanager", // menu slug
 				array( __CLASS__, 'do_post_order_manager' ) // callback function
@@ -181,8 +181,8 @@ final class Backend extends Handler {
 
 					add_submenu_page(
 						$parent_slug, // parent slug
-						sprintf( __( 'Manage %s Order', 'ordermanager' ), $taxonomy_obj->labels->singular_name ), // page title
-						sprintf( __( '%s Order', 'ordermanager' ), $taxonomy_obj->labels->singular_name ), // menu title
+						sprintf( __( 'Manage %s Order', 'order-manager' ), $taxonomy_obj->labels->singular_name ), // page title
+						sprintf( __( '%s Order', 'order-manager' ), $taxonomy_obj->labels->singular_name ), // menu title
 						$taxonomy_obj->cap->manage_terms, // capability
 						"{$taxonomy}-ordermanager", // menu slug
 						array( __CLASS__, 'do_term_order_manager' ) // callback function
@@ -209,7 +209,7 @@ final class Backend extends Handler {
 
 		$walker = new Post_Walker;
 		$posts = get_posts( array(
-			'query_context' => 'ordermanager',
+			'query_context' => 'order-manager',
 			'post_type' => $post_type,
 			'post_status' => 'any',
 			'posts_per_page' => -1,
@@ -262,7 +262,7 @@ final class Backend extends Handler {
 
 		$walker = new Term_Walker;
 		$terms = get_terms( array(
-			'query_context' => 'ordermanager',
+			'query_context' => 'order-manager',
 			'taxonomy' => $taxonomy,
 			'orderby' => 'menu_order',
 			'order' => 'asc',
@@ -312,7 +312,7 @@ final class Backend extends Handler {
 
 		$walker = new Post_Walker;
 		$posts = get_posts( array(
-			'query_context' => 'ordermanager',
+			'query_context' => 'order-manager',
 			'post_type' => $taxonomy_obj->object_type,
 			'post_status' => 'any',
 			'posts_per_page' => -1,
@@ -328,7 +328,7 @@ final class Backend extends Handler {
 		) );
 		?>
 		<tr class="form-field term-order-wrap">
-			<th scope="row"><?php _e( 'Post Order', 'ordermanager' ); ?></th>
+			<th scope="row"><?php _e( 'Post Order', 'order-manager' ); ?></th>
 			<td>
 				<p class="description">Drag to reorder entries.</p>
 
@@ -358,7 +358,7 @@ final class Backend extends Handler {
 	 */
 	public static function save_post_order() {
 		if ( ! isset( $_POST['post_type'] ) || empty( $_POST['post_type'] ) ) {
-			wp_die( __( 'Post type not specified.', 'ordermanager' ) );
+			wp_die( __( 'Post type not specified.', 'order-manager' ) );
 			exit;
 		}
 
@@ -366,12 +366,12 @@ final class Backend extends Handler {
 		$post_type_obj = get_post_type_object( $post_type );
 
 		if ( ! $post_type_obj ) {
-			wp_die( __( 'Invalid post type.', 'ordermanager' ) );
+			wp_die( __( 'Invalid post type.', 'order-manager' ) );
 			exit;
 		}
 
 		if ( ! isset( $_POST['order'] ) || empty( $_POST['order'] ) ) {
-			wp_die( __( 'No post order provided.', 'ordermanager' ) );
+			wp_die( __( 'No post order provided.', 'order-manager' ) );
 			exit;
 		}
 
@@ -393,7 +393,7 @@ final class Backend extends Handler {
 		}
 
 		// Add notice about order being updated
-		add_settings_error( "{$post_type}-ordermanager", 'settings_updated', __( 'Order saved.', 'ordermanager' ), 'updated' );
+		add_settings_error( "{$post_type}-ordermanager", 'settings_updated', __( 'Order saved.', 'order-manager' ), 'updated' );
 		set_transient( 'settings_errors', get_settings_errors(), 30 );
 
 		// Return to settings page
@@ -409,7 +409,7 @@ final class Backend extends Handler {
 	 */
 	public static function save_term_order() {
 		if ( ! isset( $_POST['taxonomy'] ) || empty( $_POST['taxonomy'] ) ) {
-			wp_die( __( 'Taxonomy not specified.', 'ordermanager' ) );
+			wp_die( __( 'Taxonomy not specified.', 'order-manager' ) );
 			exit;
 		}
 
@@ -417,12 +417,12 @@ final class Backend extends Handler {
 		$taxonomy_obj = get_taxonomy( $taxonomy );
 
 		if ( ! $taxonomy_obj ) {
-			wp_die( __( 'Invalid taxonomy.', 'ordermanager' ) );
+			wp_die( __( 'Invalid taxonomy.', 'order-manager' ) );
 			exit;
 		}
 
 		if ( ! isset( $_POST['order'] ) || empty( $_POST['order'] ) ) {
-			wp_die( __( 'No term order provided.', 'ordermanager' ) );
+			wp_die( __( 'No term order provided.', 'order-manager' ) );
 			exit;
 		}
 
@@ -441,7 +441,7 @@ final class Backend extends Handler {
 		}
 
 		// Add notice about order being updated
-		add_settings_error( "{$taxonomy}-ordermanager", 'settings_updated', __( 'Order saved.', 'ordermanager' ), 'updated' );
+		add_settings_error( "{$taxonomy}-ordermanager", 'settings_updated', __( 'Order saved.', 'order-manager' ), 'updated' );
 		set_transient( 'settings_errors', get_settings_errors(), 30 );
 
 		// Return to settings page

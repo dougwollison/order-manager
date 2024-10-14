@@ -149,7 +149,7 @@ final class Manager extends Handler {
 		 * Post Types
 		 */
 
-		add_settings_section( 'post_types', __( 'Post Types', 'ordermanager' ), null, 'ordermanager-options' );
+		add_settings_section( 'post_types', __( 'Post Types', 'order-manager' ), null, 'ordermanager-options' );
 
 		// Build the list
 		foreach ( get_post_types( array(
@@ -171,8 +171,8 @@ final class Manager extends Handler {
 					'name' => 'post_types',
 					'section' => $post_type->name,
 					'options' => array(
-						'order_manager' => __( 'Enable order manager for all posts', 'ordermanager' ),
-						'get_posts_override' => __( 'Override order on get_posts()', 'ordermanager' ),
+						'order_manager' => __( 'Enable order manager for all posts', 'order-manager' ),
+						'get_posts_override' => __( 'Override order on get_posts()', 'order-manager' ),
 					),
 				) // arguments
 			);
@@ -182,7 +182,7 @@ final class Manager extends Handler {
 		 * Taxonomies
 		 */
 
-		add_settings_section( 'taxonomies', __( 'Taxonomies', 'ordermanager' ), null, 'ordermanager-options' );
+		add_settings_section( 'taxonomies', __( 'Taxonomies', 'order-manager' ), null, 'ordermanager-options' );
 
 		// Build the list
 		foreach ( get_taxonomies( array(
@@ -200,10 +200,10 @@ final class Manager extends Handler {
 					'name' => 'taxonomies',
 					'section' => $taxonomy->name,
 					'options' => array(
-						'order_manager' => __( 'Enable order manager for all terms', 'ordermanager' ),
-						'get_terms_override' => __( 'Override order on get_terms()', 'ordermanager' ),
-						'post_order_manager' => __( 'Enable post order manager for each term', 'ordermanager' ),
-						'get_posts_override' => __( 'Override order on get_posts() for each term', 'ordermanager' ),
+						'order_manager' => __( 'Enable order manager for all terms', 'order-manager' ),
+						'get_terms_override' => __( 'Override order on get_terms()', 'order-manager' ),
+						'post_order_manager' => __( 'Enable post order manager for each term', 'order-manager' ),
+						'get_posts_override' => __( 'Override order on get_posts() for each term', 'order-manager' ),
 					),
 				) // arguments
 			);
