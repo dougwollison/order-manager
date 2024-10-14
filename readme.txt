@@ -17,7 +17,7 @@ as well as posts tagged with a specific term.
 
 = Options =
 
-**"Enable order manager for all posts/terms"**
+**Enable order manager for all posts/terms**
 
 This will add a new page to the WordPress menu under the associated post type.
 It provides you with a straightforward drag-and-drop interface to organize your
@@ -27,7 +27,7 @@ the intended parent.
 
 This adds a new `'orderby'` value when using `get_terms()`: `'menu_order'`.
 
-**"Enable post order manager for each term"**
+**Enable post order manager for each term**
 
 Taxonomies with this option enabled will now offer a post order interface on
 each term's edit screen, allowing you to set a unique order for posts in that
@@ -38,7 +38,7 @@ This adds a new `'orderby'` value when using `get_posts()`: `'term_order'`.
 *Note: this unique order will only take effect when listing posts belonging to
 a specific term that uses this.*
 
-**"Override order on `get_posts()/get_terms()`"**
+**Override order on `get_posts()/get_terms()`**
 
 This will cause all queries for posts/terms of that type to use the custom
 order by default, rather than by date/name. In the case of a query for posts
@@ -57,6 +57,9 @@ belonging to a term with post-sorting enabled, it will use that order by default
 == Changelog ==
 
 **Details on each release can be found [on the GitHub releases page](https://github.com/dougwollison/order-manager/releases) for this project.**
+
+= 1.1.0 =
+Quick Sort, REST support, public API, code cleanup
 
 = 1.0.0 =
 Initial public release.
