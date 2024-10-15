@@ -13,7 +13,7 @@ namespace OrderManager;
 /**
  * The AJAX Request Handler
  *
- * Add necessary wp_ajax_* hooks to fullfill any
+ * Add necessary wp_ajax_* hooks to fulfill any
  * custom AJAX requests.
  *
  * @internal Used by the System.

@@ -27,15 +27,15 @@ final class Exception extends \Exception {
 	 * @since 1.0.0
 	 *
 	 * @param string     $message  The error message.
-	 * @param int        $code     Optional The error code.
-	 * @param \Exception $previous Optional The previous exception in the chain.
+	 * @param int        $code     Optional. The error code.
+	 * @param \Exception $previous Optional. The previous exception in the chain.
 	 */
 	public function __construct( $message, $code = 0, ?Exception $previous = null ) {
 	    parent::__construct( $message, $code, $previous );
 	}
 
 	/**
-	 * Ouput a string representation of the exception.
+	 * Output a string representation of the exception.
 	 *
 	 * @since 1.0.0
 	 *

@@ -66,7 +66,7 @@ final class Installer extends Handler {
 	 * @since 1.0.0
 	 */
 	private static function plugin_security_check( $check_referer = null ) {
-		// Make sure they have permisson
+		// Make sure they have permission
 		if ( ! current_user_can( 'activate_plugins' ) ) {
 			return false;
 		}
@@ -157,7 +157,7 @@ final class Installer extends Handler {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @return bool Wether or not an upgrade was performed.
+	 * @return bool Whether or not an upgrade was performed.
 	 */
 	public static function upgrade() {
 		return false;

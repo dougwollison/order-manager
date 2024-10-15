@@ -127,7 +127,7 @@ final class Registry {
 	 *
 	 * @param string &$option The option name.
 	 *
-	 * @return bool Wether or not the option is supported.
+	 * @return bool Whether or not the option is supported.
 	 */
 	public static function has( &$option ) {
 		if ( isset( self::$options_deprecated[ $option ] ) ) {
@@ -221,7 +221,7 @@ final class Registry {
 	 * @param string $post_type The post type to check support for.
 	 * @param string $support   Optional. The support to check, defaults to "order_manager".
 	 *
-	 * @return bool Wether or not the post type is supported.
+	 * @return bool Whether or not the post type is supported.
 	 */
 	public static function is_post_type_supported( $post_type, $support = 'order_manager' ) {
 		$post_types = self::get( 'post_types' );
@@ -241,7 +241,7 @@ final class Registry {
 	 * @param string $taxonomy The taxonomy to check support for.
 	 * @param string $support  Optional. The support to check, defaults to "order_manager".
 	 *
-	 * @return bool Wether or not the post type is supported.
+	 * @return bool Whether or not the post type is supported.
 	 */
 	public static function is_taxonomy_supported( $taxonomy, $support = 'order_manager' ) {
 		$taxonomies = self::get( 'taxonomies' );

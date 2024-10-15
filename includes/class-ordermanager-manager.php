@@ -1,6 +1,6 @@
 <?php
 /**
- * OrderManager Manager Funtionality
+ * OrderManager Manager Functionality
  *
  * @package OrderManager
  * @subpackage Handlers
