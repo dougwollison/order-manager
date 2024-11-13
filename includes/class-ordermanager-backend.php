@@ -52,7 +52,7 @@ final class Backend extends Handler {
 		}
 
 		// Setup stuff
-		self::add_hook( 'plugins_loaded', 'load_textdomain', 10, 0 );
+		self::add_hook( 'init', 'load_textdomain', 10, 0 );
 
 		// Styles and Scripts
 		self::add_hook( 'admin_init', 'register_assets' );
